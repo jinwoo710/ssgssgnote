@@ -1,8 +1,12 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
+import Header from '../components/Header'
 
 export default function Layout() {
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
   return (
-    <div className="font-gamja mx-auto px-4 lg:px-0 w-full max-w-screen-md lg:max-w-screen-lg text-dark bg-orange-500 flex justify-center items-center h-full lg:h-screen">
+    <div className="font-gamja mx-auto flex-col px-4 lg:px-0 w-full max-w-screen-md lg:max-w-screen-lg text-dark flex justify-center items-center h-full lg:h-screen">
+      {!isHome && <Header />}
       <Outlet />
     </div>
   )

@@ -13,7 +13,7 @@ export default function StudentNameTag({ student }: StudentNameTag) {
       <img
         src={student.gender == 'male' ? boyIcon : girlIcon}
         alt={student.gender == 'male' ? '남자' : '여자'}
-        className="w-5 h-5"
+        className="w-5 h-5 my-auto"
       />
       <span>
         {student.studentId} . {student.name}

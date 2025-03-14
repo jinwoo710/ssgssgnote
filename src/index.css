@@ -1,11 +1,23 @@
 @import 'tailwindcss';
 
-.gamja-flower {
-  font-family: 'Gamja Flower', sans-serif;
-  font-weight: 400;
-  font-style: normal;
+@theme {
+  --font-gamja: 'Gamja Flower', sans-serif;
+  --color-brown-100: oklch(0.32 0.0444 3);
 }
 
-@theme {
-  --color-brown-100: oklch(0.32 0.0444 3);
+:root {
+  background: beige;
+}
+
+@layer components {
+  .card {
+    @apply border border-black w-full h-full rounded-xl flex;
+  }
+  .btn {
+    @apply rounded-xl border p-2 hover:bg-gray-100;
+  }
+
+  .bookmark {
+    @apply rounded-t-xl border p-2 border-b-0;
+  }
 }

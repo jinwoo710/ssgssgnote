@@ -5,7 +5,7 @@ export default function Home() {
   let date = new Date()
   const boardText = 'text-white lg:text-xl'
   return (
-    <div className="flex flex-col my-auto min-h-[90%] w-full p-4 lg:p-8 bg-green-900 rounded-lg shadow-lg border-8 border-brown-100">
+    <div className="flex flex-col  min-h-[90%] w-full p-4 lg:p-8 bg-green-900 rounded-lg shadow-lg border-8 border-brown-100">
       <div className="w-full flex justify-between items-center">
         <div className={`${boardText} relative`}>
           떠드는 사람

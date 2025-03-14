@@ -13,7 +13,7 @@ export default function Students() {
   const handleCloseModal = () => setIsAddModalOpen(false)
   return (
     <div
-      className="flex flex-col space-y-4 lg:space-y-0 lg:space-x-6 lg:flex-row h-[90%] w-full p-4 lg:p-8 bg-white rounded-lg shadow-lg border-black border"
+      className="white-paper"
       style={{
         backgroundImage: 'linear-gradient(#eee 1px, transparent 1px)',
         backgroundSize: '100% 25px'
@@ -32,7 +32,7 @@ export default function Students() {
               />
             </div>
           </div>
-          <div className="flex flex-col p-2 overflow-y-auto space-y-2">
+          <div className="flex flex-col p-2 overflow-y-auto space-y-2 h-[600px]">
             {students?.map(student => (
               <StudentNameTag
                 key={student.id}
@@ -51,10 +51,10 @@ export default function Students() {
           onClose={handleCloseModal}
         />
       </div>
-      <div className="flex flex-col w-full h-full space-y-2">
-        <div className="card min-h-[200px] p-4 flex-col"> </div>
-        <div className="card min-h-[200px] p-4 flex-col"> </div>
-        <div className="card min-h-[200px] p-4 flex-col"> </div>
+      <div className="flex flex-col w-full flex-1 space-y-2">
+        <div className="card min-h-[100px] flex-1 p-4 flex-col"> </div>
+        <div className="card min-h-[100px] flex-1 p-4 flex-col"> </div>
+        <div className="card min-h-[100px] flex-1 p-4 flex-col"> </div>
       </div>
     </div>
   )

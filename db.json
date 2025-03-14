@@ -53,18 +53,22 @@
       "studentId": "42142",
       "name": "쿵야쿵야쿵쿵ㅋ웈웈웈웈우쿵",
       "gender": "female"
+    },
+    {
+      "id": "9a11",
+      "studentId": "ff",
+      "name": "sdf",
+      "gender": "male"
     }
   ],
-  "assignments": [
+  "homeworks": [
     {
       "id": "1",
       "title": "중간고사 대체 과제",
       "startDate": "2025-03-01",
       "endDate": "2025-03-15",
       "description": "중간고사 대체 과제",
-      "unsubmittedStudents": [
-        1
-      ]
+      "unsubmittedStudents": [1]
     }
   ],
   "consultations": [

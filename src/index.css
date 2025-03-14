@@ -14,10 +14,14 @@
     @apply border border-black w-full h-full rounded-xl flex;
   }
   .btn {
-    @apply rounded-xl border p-2 hover:bg-gray-100;
+    @apply rounded-xl border p-2 hover:bg-gray-100 cursor-pointer;
   }
 
   .bookmark {
     @apply rounded-t-xl border p-2 border-b-0;
+  }
+
+  .white-paper {
+    @apply flex flex-col space-y-4 lg:space-y-0 lg:space-x-6 lg:flex-row  flex-1 w-full p-4 lg:p-8 bg-white rounded-lg shadow-lg border-black border;
   }
 }

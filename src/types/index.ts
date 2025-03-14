@@ -7,7 +7,7 @@ export interface Student {
 
 export type CreateStudent = Omit<Student, 'id'>
 
-export interface Assignment {
+export interface Homework {
   id: string
   title: string
   startDate: string

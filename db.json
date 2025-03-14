@@ -1,0 +1,49 @@
+{
+  "students": [
+    {
+      "id": "1",
+      "studentId": 20250301,
+      "name": "송진우",
+      "gender": "male"
+    },
+    {
+      "id": "546f",
+      "studentId": 4,
+      "name": "test",
+      "gender": "male"
+    },
+    {
+      "id": "58a7",
+      "studentId": 4,
+      "name": "test",
+      "gender": "maleㄹㄹ"
+    },
+    {
+      "id": "bd88",
+      "studentId": 124,
+      "name": "fsd",
+      "gender": "male"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "1",
+      "title": "중간고사 대체 과제",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-15",
+      "description": "중간고사 대체 과제",
+      "unsubmittedStudents": [
+        1
+      ]
+    }
+  ],
+  "consultations": [
+    {
+      "id": "1",
+      "studentId": 1,
+      "date": "2025-03-02",
+      "title": "진로 상담",
+      "content": "포트 폴리오 제작 고민 중"
+    }
+  ]
+}

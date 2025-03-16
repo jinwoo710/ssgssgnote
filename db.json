@@ -53,17 +53,68 @@
       "studentId": "42142",
       "name": "쿵야쿵야쿵쿵ㅋ웈웈웈웈우쿵",
       "gender": "female"
+    },
+    {
+      "id": "9a11",
+      "studentId": "ff",
+      "name": "sdf",
+      "gender": "male"
     }
   ],
-  "assignments": [
+  "homeworks": [
     {
-      "id": "1",
-      "title": "중간고사 대체 과제",
-      "startDate": "2025-03-01",
-      "endDate": "2025-03-15",
-      "description": "중간고사 대체 과제",
-      "unsubmittedStudents": [
-        1
+      "id": "244c",
+      "title": "42",
+      "description": "44",
+      "date": "2025-03-16",
+      "unsubmittedStudentIds": [
+        "546f",
+        "af7d"
+      ]
+    },
+    {
+      "id": "7c49",
+      "title": "ㅅㄷㄴㅅ",
+      "description": "ㄴㅇ",
+      "date": "2025-02-25",
+      "unsubmittedStudentIds": [
+        "546f"
+      ]
+    },
+    {
+      "id": "39b3",
+      "title": "zx",
+      "description": "fas",
+      "date": "2025-03-05",
+      "unsubmittedStudentIds": []
+    },
+    {
+      "id": "e8cf",
+      "title": "sdf",
+      "description": "sd",
+      "date": "2025-03-05",
+      "unsubmittedStudentIds": [
+        "1",
+        "58a7",
+        "bd88",
+        "af7d",
+        "b566",
+        "546f",
+        "7a2c",
+        "3798",
+        "9a11",
+        "4a93"
+      ]
+    },
+    {
+      "id": "af32",
+      "title": "x",
+      "description": "x",
+      "date": "2025-02-27",
+      "unsubmittedStudentIds": [
+        "546f",
+        "bd88",
+        "af7d"
       ]
     }
   ],

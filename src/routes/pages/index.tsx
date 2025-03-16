@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './home'
 import Layout from '../layouts'
 import Students from './students'
+import Homework from './homework'
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: '/students',
         element: <Students />
+      },
+      {
+        path: '/homework',
+        element: <Homework />
       }
     ]
   }

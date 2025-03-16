@@ -1,4 +1,6 @@
 import useStudents from '@/hooks/useStudents'
+import FormInput from '@/routes/components/FormInput'
+import ModalLayout from '@/routes/components/ModalLayout'
 import { CreateStudent } from '@/types'
 import { useForm } from 'react-hook-form'
 
@@ -12,45 +14,54 @@ export default function AddStudentModal({
   onClose
 }: AddStudentModalProps) {
   const { createStudent } = useStudents()
-  const { register, handleSubmit, reset } = useForm<CreateStudent>()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    clearErrors,
+    formState: { errors }
+  } = useForm<CreateStudent>()
 
   const onSubmit = async (data: CreateStudent) => {
     try {
       await createStudent(data)
-      reset()
-      onClose()
+      handleClose()
     } catch (error) {
       console.log('Failed to create student:', error)
     }
   }
 
+  const handleClose = () => {
+    clearErrors()
+    reset()
+    onClose()
+  }
+
   if (!isOpen) return null
   const inputContainerClass = 'flex items-center gap-4'
-  const labelClass = 'w-10'
-  const inputClass = 'rounded-md border flex-1 px-2'
+  const labelClass = 'w-10 shrink-0'
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div
-        className="absolute inset-0 bg-black/30"
-        onClick={onClose}
-      />
+    <ModalLayout
+      onClose={handleClose}
+      isOpen={isOpen}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="relative bg-white p-6 rounded-xl border flex flex-col gap-4 mx-10 w-full max-w-[400px]  shadow-lg">
-        <div className={inputContainerClass}>
-          <span className={labelClass}>학번</span>{' '}
-          <input
-            {...register('studentId', { required: '학번은 필수입니다' })}
-            className={inputClass}
-          />
-        </div>
-        <div className={inputContainerClass}>
-          <span className={labelClass}>이름</span>{' '}
-          <input
-            {...register('name', { required: '이름은 필수입니다.' })}
-            className={inputClass}
-          />
-        </div>
+        className="modal-card max-w-[400px]">
+        <FormInput
+          register={register}
+          errors={errors}
+          name="studentId"
+          label="번호"
+          registerOptions={{ required: '번호를 입력해주세요!' }}
+        />
+        <FormInput
+          register={register}
+          errors={errors}
+          name="name"
+          label="이름"
+          registerOptions={{ required: '이름은 필수입니다.' }}
+        />
+
         <div className={inputContainerClass}>
           <span className={labelClass}>성별</span>
           <div className="flex gap-4">
@@ -83,6 +94,6 @@ export default function AddStudentModal({
           추가하기
         </button>
       </form>
-    </div>
+    </ModalLayout>
   )
 }

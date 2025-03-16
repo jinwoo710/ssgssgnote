@@ -5,6 +5,11 @@
   --color-brown-100: oklch(0.32 0.0444 3);
 }
 
+html {
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
+}
+
 :root {
   background: beige;
 }
@@ -14,10 +19,18 @@
     @apply border border-black w-full h-full rounded-xl flex;
   }
   .btn {
-    @apply rounded-xl border p-2 hover:bg-gray-100;
+    @apply rounded-xl border p-2 hover:bg-gray-100 cursor-pointer;
   }
 
   .bookmark {
-    @apply rounded-t-xl border p-2 border-b-0;
+    @apply rounded-tl-xl rounded-bl-xl border p-4 pr-6 transform hover:-translate-x-2 transition-all;
+  }
+
+  .white-paper {
+    @apply flex flex-col space-y-4 lg:space-y-0 lg:space-x-6 lg:flex-row  flex-1 w-full p-4 lg:p-8 bg-white rounded-lg shadow-lg border-black border;
+  }
+
+  .modal-card {
+    @apply relative bg-white p-6 rounded-xl border flex flex-col gap-4 mx-10 w-full shadow-lg;
   }
 }

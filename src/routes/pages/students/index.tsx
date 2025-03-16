@@ -1,5 +1,5 @@
 import useStudents from '@/hooks/useStudents'
-import StudentNameTag from './components/StudentNameTag'
+import StudentNameTag from '../../components/StudentNameTag'
 import { useState } from 'react'
 import { Student } from '@/types'
 import AddStudentModal from './components/AddStudentModal'

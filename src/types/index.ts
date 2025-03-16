@@ -10,10 +10,17 @@ export type CreateStudent = Omit<Student, 'id'>
 export interface Homework {
   id: string
   title: string
-  startDate: string
-  endDate: string
+  date: string
   description: string
-  unsubmittedStudents: number[]
+  unsubmittedStudentIds: string[]
+  unsubmittedStudents: Student[]
+}
+
+export interface CreateHomework {
+  title: string
+  date: string
+  description: string
+  unsubmittedStudentIds: string[]
 }
 
 export interface Consultation {

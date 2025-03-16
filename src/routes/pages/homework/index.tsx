@@ -1,6 +1,17 @@
+import { useState } from 'react'
 import HomeworkItem from './components/HomeworkItem'
+import AddHomeworkModal from './components/AddHomeworkModal'
+import useHomeworks from '@/hooks/useHomeworks'
 
 export default function Homework() {
+  const [isAddHomeworkModalOpen, setIsAddHomeworkModalOpen] = useState(false)
+  const handleCloseModal = () => {
+    setIsAddHomeworkModalOpen(false)
+  }
+  const handleOpenModal = () => {
+    setIsAddHomeworkModalOpen(true)
+  }
+  const { homeworks } = useHomeworks()
   return (
     <div
       className="white-paper flex-col space-y-4"
@@ -9,58 +20,25 @@ export default function Homework() {
         backgroundSize: '100% 25px'
       }}>
       <div className="w-full flex justify-end">
-        <button className="btn">과제 추가하기</button>
+        <button
+          className="btn"
+          onClick={handleOpenModal}>
+          숙제 추가하기
+        </button>
       </div>
-      <div className="card flex-wrap w-full space-y-4 content-start space-x-4 min-h-[600px]">
-        <HomeworkItem
-          title="중간고사 대체 과제"
-          description="중간고사 대체 과제"
-          startDate="2025-03-01"
-          endDate="2025-03-15"
-          unsubmittedStudents={[1]}
-          id={''}
-        />
-        <HomeworkItem
-          title="중간고사 대체 과제"
-          description="중간고사 대체 과제"
-          startDate="2025-03-01"
-          endDate="2025-03-15"
-          unsubmittedStudents={[1]}
-          id={''}
-        />
-        <HomeworkItem
-          title="중간고사 대체 과제"
-          description="중간고사 대체 과제"
-          startDate="2025-03-01"
-          endDate="2025-03-15"
-          unsubmittedStudents={[1]}
-          id={''}
-        />
-        <HomeworkItem
-          title="중간고사 대체 과제"
-          description="중간고사 대체 과제"
-          startDate="2025-03-01"
-          endDate="2025-03-15"
-          unsubmittedStudents={[1]}
-          id={''}
-        />
-        <HomeworkItem
-          title="중간고사 대체 과제"
-          description="중간고사 대체 과제"
-          startDate="2025-03-01"
-          endDate="2025-03-15"
-          unsubmittedStudents={[1]}
-          id={''}
-        />
-        <HomeworkItem
-          title="중간고사 대체 과제"
-          description="중간고사 대체 과제"
-          startDate="2025-03-01"
-          endDate="2025-03-15"
-          unsubmittedStudents={[1]}
-          id={''}
-        />
+
+      <div className="card flex-col w-full md:grid md:grid-cols-2 justify-center content-start p-4 gap-3 min-h-[600px]">
+        {homeworks?.map(homework => (
+          <HomeworkItem
+            key={homework.id}
+            {...homework}
+          />
+        ))}
       </div>
+      <AddHomeworkModal
+        isOpen={isAddHomeworkModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   )
 }

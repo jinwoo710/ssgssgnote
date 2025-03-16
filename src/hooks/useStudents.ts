@@ -23,7 +23,7 @@ const createStudentApi = async (student: CreateStudent): Promise<Student> => {
   return response.json()
 }
 
-const useStudents = () => {
+export default function useStudents() {
   const queryClient = useQueryClient()
   const {
     data: students,
@@ -43,5 +43,3 @@ const useStudents = () => {
 
   return { students, isLoading: isLoading || isPending, isError, createStudent }
 }
-
-export default useStudents

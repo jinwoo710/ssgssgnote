@@ -1,4 +1,4 @@
-import { CreateHomework, Homework } from '@/types'
+import { CreateHomework, Homework, UpdateHomework } from '@/types'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
 const fetchHomeworksApi = async () => {
@@ -39,6 +39,21 @@ const createHomeworkApi = async (homework: CreateHomework) => {
   return response.json()
 }
 
+const updateHomeworkApi = async (homework: UpdateHomework) => {
+  console.log(homework)
+  const response = await fetch(
+    `http://localhost:3000/homeworks/${homework.id}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(homework)
+    }
+  )
+  if (!response.ok) {
+    throw Error('fail to update homework')
+  }
+  return response.json()
+}
+
 export default function useHomeworks() {
   const queryClient = useQueryClient()
 
@@ -58,11 +73,19 @@ export default function useHomeworks() {
     }
   })
 
+  const { mutateAsync: updateHomework, isPending: isUpdatePending } =
+    useMutation({
+      mutationFn: updateHomeworkApi,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['homeworks'] })
+      }
+    })
+
   return {
     homeworks,
-    isLoading: isLoading || isPending,
+    isLoading: isLoading || isPending || isUpdatePending,
     isError,
     createHomework,
-    isPending
+    updateHomework
   }
 }

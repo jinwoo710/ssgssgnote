@@ -3,20 +3,22 @@ import useStudents from '@/hooks/useStudents'
 import FormInput from '@/routes/components/FormInput'
 import ModalLayout from '@/routes/components/ModalLayout'
 import StudentNameTag from '@/routes/components/StudentNameTag'
-import { CreateHomework, Student } from '@/types'
-import { useState } from 'react'
+import { CreateHomework, Homework, Student } from '@/types'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-export interface AddHomeworkModalProps {
+export interface HomeworkModalProps {
   onClose: () => void
   isOpen: boolean
+  homework?: Homework | null
 }
-export default function AddHomeworkModal({
+export default function HomeworkModal({
   onClose,
-  isOpen
-}: AddHomeworkModalProps) {
+  isOpen,
+  homework
+}: HomeworkModalProps) {
   const { students } = useStudents()
-  const { createHomework } = useHomeworks()
+  const { createHomework, updateHomework } = useHomeworks()
   const [selectedStudents, setSelectedStudents] = useState<Student[]>([])
   const {
     register,
@@ -25,8 +27,34 @@ export default function AddHomeworkModal({
     formState: { errors }
   } = useForm<CreateHomework>()
 
+  const isEditMode = !!homework
+
+  useEffect(() => {
+    if (isOpen) {
+      if (isEditMode && homework) {
+        reset({
+          title: homework.title,
+          description: homework.description,
+          date: homework.date
+        })
+        setSelectedStudents(homework.unsubmittedStudents)
+      } else {
+        reset({
+          title: '',
+          description: '',
+          date: new Date().toISOString().substring(0, 10)
+        })
+        setSelectedStudents([])
+      }
+    }
+  }, [homework, reset, isOpen, isEditMode])
+
   const handleClose = () => {
-    reset()
+    reset({
+      title: '',
+      description: '',
+      date: new Date().toISOString().substring(0, 10)
+    })
     setSelectedStudents([])
     onClose()
   }
@@ -42,7 +70,11 @@ export default function AddHomeworkModal({
   const onSubmit = async (data: CreateHomework) => {
     try {
       data.unsubmittedStudentIds = selectedStudents.map(students => students.id)
-      await createHomework(data)
+      if (isEditMode) {
+        await updateHomework({ ...data, id: homework!.id })
+      } else {
+        await createHomework(data)
+      }
       handleClose()
     } catch (error) {
       console.error(error)
@@ -56,6 +88,14 @@ export default function AddHomeworkModal({
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="modal-card max-w-[600px]">
+        <div className="w-full flex justify-end">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="cursor-pointer">
+            닫기
+          </button>
+        </div>
         <FormInput
           register={register}
           errors={errors}
@@ -121,9 +161,9 @@ export default function AddHomeworkModal({
           </div>
         </div>
         <button
-          className="btn"
+          className="btn bg-gray-200"
           type="submit">
-          추가하기
+          {isEditMode ? '수정하기' : '추가하기'}
         </button>
       </form>
     </ModalLayout>

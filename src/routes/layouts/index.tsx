@@ -5,7 +5,7 @@ export default function Layout() {
   const { pathname } = useLocation()
   const isHome = pathname === '/'
   return (
-    <div className="font-gamja min-h-screen w-full flex justify-center">
+    <div className="font-gamja not-only:min-h-screen w-full flex justify-center">
       <div className="flex relative w-full max-w-screen-md lg:max-w-screen-lg">
         {!isHome && (
           <div className="sticky top-0 left-0 h-screen hidden lg:block">

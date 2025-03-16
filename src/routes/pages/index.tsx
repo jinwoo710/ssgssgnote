@@ -3,6 +3,7 @@ import Home from './home'
 import Layout from '../layouts'
 import Students from './students'
 import Homework from './homework'
+import Attendance from './attendance'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: '/students',
         element: <Students />
+      },
+      {
+        path: '/attendance',
+        element: <Attendance />
       },
       {
         path: '/homework',

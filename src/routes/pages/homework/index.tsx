@@ -1,15 +1,25 @@
 import { useState } from 'react'
 import HomeworkItem from './components/HomeworkItem'
-import AddHomeworkModal from './components/AddHomeworkModal'
+import HomeworkModal from './components/HomeworkModal'
 import useHomeworks from '@/hooks/useHomeworks'
+import type { Homework } from '@/types'
 
 export default function Homework() {
   const [isAddHomeworkModalOpen, setIsAddHomeworkModalOpen] = useState(false)
+  const [selectedHomework, setSelectedHomework] = useState<Homework | null>(
+    null
+  )
   const handleCloseModal = () => {
     setIsAddHomeworkModalOpen(false)
+    setSelectedHomework(null)
   }
   const handleOpenModal = () => {
     setIsAddHomeworkModalOpen(true)
+  }
+
+  const handleEditHomework = (homework: Homework) => {
+    setSelectedHomework(homework)
+    handleOpenModal()
   }
   const { homeworks } = useHomeworks()
   return (
@@ -29,15 +39,17 @@ export default function Homework() {
 
       <div className="card flex-col w-full md:grid md:grid-cols-2 justify-center content-start p-4 gap-3 min-h-[600px]">
         {homeworks?.map(homework => (
-          <HomeworkItem
-            key={homework.id}
-            {...homework}
-          />
+          <div
+            onClick={() => handleEditHomework(homework)}
+            key={homework.id}>
+            <HomeworkItem {...homework} />
+          </div>
         ))}
       </div>
-      <AddHomeworkModal
+      <HomeworkModal
         isOpen={isAddHomeworkModalOpen}
         onClose={handleCloseModal}
+        homework={selectedHomework}
       />
     </div>
   )

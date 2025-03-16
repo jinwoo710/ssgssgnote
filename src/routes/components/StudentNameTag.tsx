@@ -5,16 +5,18 @@ import { Student } from '@/types'
 interface StudentNameTag {
   student: Student
   simpleVersion?: boolean
+  miniVersion?: boolean
 }
 export default function StudentNameTag({
   student,
-  simpleVersion = false
+  simpleVersion = false,
+  miniVersion = false
 }: StudentNameTag) {
   return (
     <div
       key={student.id}
       className={`flex w-full rounded-lg p-4 space-x-2 border cursor-pointer h-fit ${student.gender == 'male' ? 'bg-blue-100' : 'bg-pink-100'}`}>
-      {simpleVersion ? null : (
+      {simpleVersion || miniVersion ? null : (
         <img
           src={student.gender == 'male' ? boyIcon : girlIcon}
           alt={student.gender == 'male' ? '남자' : '여자'}
@@ -22,7 +24,8 @@ export default function StudentNameTag({
         />
       )}
       <span className={simpleVersion ? 'shrink-0' : ''}>
-        {student.studentId} . {student.name}
+        {!miniVersion && student.studentId + ' . '}
+        {student.name}
       </span>
     </div>
   )

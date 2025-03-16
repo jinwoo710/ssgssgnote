@@ -23,6 +23,14 @@ export interface CreateHomework {
   unsubmittedStudentIds: string[]
 }
 
+export interface UpdateHomework {
+  id: string
+  title: string
+  date: string
+  description: string
+  unsubmittedStudentIds: string[]
+}
+
 export interface Consultation {
   id: string
   studentId: number

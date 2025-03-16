@@ -1,9 +1,12 @@
 import { DAYS } from '@/routes/constants/days'
 import { useEffect, useState } from 'react'
 import AttendanceModal from './components/AttendanceModal'
+import useAttendance from '@/hooks/useAttendance'
 
 export default function Attendance() {
   const [currentDate, setCurrentDate] = useState(new Date())
+  const { attendance, isLoading, isError } = useAttendance()
+
   const [calendarDays, setCalendarDays] = useState<Date[]>([])
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -74,6 +77,15 @@ export default function Attendance() {
               <span className="text-xl rounded-t-2xl border-b border-gray-400 w-full text-center">
                 {date.getDate()}
               </span>
+              {attendance
+                ?.filter(
+                  (attendance: { date: string }) =>
+                    attendance.date ===
+                    `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+                )
+                ?.map((student: { studentName: string }) => (
+                  <span key={student.studentName}>{student.studentName}</span>
+                ))}
             </div>
           ))}
         </div>

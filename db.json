@@ -59,6 +59,48 @@
       "studentId": "ff",
       "name": "sdf",
       "gender": "male"
+    },
+    {
+      "id": "18b7",
+      "gender": "male",
+      "studentId": "d",
+      "name": "f"
+    },
+    {
+      "id": "ec76",
+      "gender": "male",
+      "studentId": "32",
+      "name": "523"
+    },
+    {
+      "id": "ccc5",
+      "gender": "male",
+      "studentId": "124",
+      "name": "2353"
+    },
+    {
+      "id": "1073",
+      "gender": "male",
+      "studentId": "23",
+      "name": "23523"
+    },
+    {
+      "id": "8de7",
+      "gender": "male",
+      "studentId": "364",
+      "name": "46354"
+    },
+    {
+      "id": "27d4",
+      "gender": "male",
+      "studentId": "547",
+      "name": "4734"
+    },
+    {
+      "id": "a0d1",
+      "gender": "male",
+      "studentId": "2462",
+      "name": "34643"
     }
   ],
   "homeworks": [
@@ -74,9 +116,7 @@
       "title": "ㅅㄷㄴㅅ",
       "description": "ㄴㅇ",
       "date": "2025-02-25",
-      "unsubmittedStudentIds": [
-        "546f"
-      ]
+      "unsubmittedStudentIds": ["546f"]
     },
     {
       "title": "zx4",
@@ -107,11 +147,7 @@
       "title": "xsdfsd",
       "description": "x",
       "date": "2025-02-27",
-      "unsubmittedStudentIds": [
-        "546f",
-        "bd88",
-        "af7d"
-      ],
+      "unsubmittedStudentIds": ["546f", "bd88", "af7d"],
       "id": "af32"
     },
     {
@@ -137,6 +173,57 @@
       "date": "2025-03-02",
       "title": "진로 상담",
       "content": "포트 폴리오 제작 고민 중"
+    }
+  ],
+  "attendance": [
+    {
+      "id": "b152",
+      "studentId": "b566",
+      "studentName": "쿵야",
+      "date": "2025-2-27",
+      "status": "지각"
+    },
+    {
+      "id": "b1ca",
+      "studentId": "4a93",
+      "studentName": "ㅋ",
+      "date": "2025-2-26",
+      "status": "지각"
+    },
+    {
+      "id": "3f87",
+      "studentId": "4a93",
+      "studentName": "ㅋ",
+      "date": "2025-2-27",
+      "status": "지각"
+    },
+    {
+      "id": "54fb",
+      "studentId": "27d4",
+      "studentName": "4734",
+      "date": "2025-2-27",
+      "status": "지각"
+    },
+    {
+      "id": "d494",
+      "studentId": "9a11",
+      "studentName": "sdf",
+      "date": "2025-2-27",
+      "status": "지각"
+    },
+    {
+      "id": "c9c3",
+      "studentId": "ccc5",
+      "studentName": "2353",
+      "date": "2025-2-27",
+      "status": "지각"
+    },
+    {
+      "id": "47e6",
+      "studentId": "a0d1",
+      "studentName": "34643",
+      "date": "2025-2-27",
+      "status": "지각"
     }
   ]
 }

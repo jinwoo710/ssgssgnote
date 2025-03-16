@@ -44,3 +44,13 @@ export interface ApiResponse<T> {
   status: number
   message?: string
 }
+
+export interface Attendance {
+  id: string
+  studentId: string
+  studentName: string
+  date: string
+  status: string
+}
+
+export type CreateAttendance = Omit<Attendance, 'id'>

@@ -86,7 +86,8 @@ export default function HomeworkModal({
     <ModalLayout
       onClose={handleClose}
       isOpen={isOpen}>
-      <form
+      <motion.form
+        layout
         onSubmit={handleSubmit(onSubmit)}
         className="modal-card max-w-[600px]">
         <div className="w-full flex justify-end">
@@ -119,7 +120,9 @@ export default function HomeworkModal({
           type="date"
           registerOptions={{ required: '날짜를 입력해주세요' }}
         />
-        <div className="w-full flex flex-col gap-2">
+        <motion.div
+          layout
+          className="w-full flex flex-col gap-2">
           <span>제출 학생</span>
           <div className="card flex-wrap gap-1 p-2 max-h-[20vh] min-h-10 overflow-y-auto">
             {selectedStudents.length == students?.length && (
@@ -181,13 +184,13 @@ export default function HomeworkModal({
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
         <button
           className="btn bg-gray-200"
           type="submit">
           {isEditMode ? '수정하기' : '추가하기'}
         </button>
-      </form>
+      </motion.form>
     </ModalLayout>
   )
 }

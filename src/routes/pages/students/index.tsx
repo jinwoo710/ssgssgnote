@@ -3,6 +3,7 @@ import StudentNameTag from '../../components/StudentNameTag'
 import { useState } from 'react'
 import { Student } from '@/types'
 import AddStudentModal from './components/AddStudentModal'
+import { motion } from 'framer-motion'
 
 export default function Students() {
   const { students, isLoading, isError } = useStudents()
@@ -42,11 +43,12 @@ export default function Students() {
               ))}
             </div>
           </div>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
             className="btn"
             onClick={handleOpenModal}>
             추가하기
-          </button>
+          </motion.button>
         </div>
         <div className="flex flex-col w-full flex-1 space-y-2">
           <div className="card min-h-[100px] flex-1 p-4 flex-col"> </div>

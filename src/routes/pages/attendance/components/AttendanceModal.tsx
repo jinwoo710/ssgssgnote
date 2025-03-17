@@ -53,6 +53,7 @@ export default function AttendanceModal({
       onClose={handleClose}
       isOpen={isOpen}>
       <motion.form
+        layout
         onSubmit={handleSubmit(onSubmit)}
         className="modal-card max-w-[600px]">
         <div className="w-full flex justify-between">
@@ -111,7 +112,7 @@ export default function AttendanceModal({
             </button>
           </motion.div>
         )}
-        <div className="card min-h-[10vh] p-4 flex-col gap-1 overflow-y-auto">
+        <div className="card min-h-[10vh] max-h-[50vh] p-4 flex-col gap-1 overflow-y-auto">
           {attendance?.length === 0 && (
             <div className="w-full m-auto text-center">모두 출석했어요</div>
           )}

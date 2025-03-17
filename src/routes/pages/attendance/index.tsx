@@ -69,12 +69,21 @@ export default function Attendance() {
           <span>출석부</span>
           <div className="grid grid-cols-5 gap-1">
             {DAYS.map(day => (
-              <div key={day}>{day}</div>
+              <div
+                key={day}
+                className="w-full text-center text-2xl">
+                {day}
+              </div>
             ))}
           </div>
           <div className="grid grid-cols-5 gap-1">
             {calendarDays.map((date, index) => (
-              <div
+              <motion.div
+                whileHover={{
+                  scale: 1.03,
+                  type: 'spring',
+                  backgroundColor: '#f0f0f0'
+                }}
                 key={index}
                 onClick={() => handleOpenModal(date)}
                 className="flex bg-white cursor-pointer flex-col justify-start items-center border border-black rounded-2xl min-h-[100px]">
@@ -117,7 +126,7 @@ export default function Attendance() {
                       )
                     )}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

@@ -58,7 +58,7 @@ export default function AddStudentModal({
           errors={errors}
           name="name"
           label="이름"
-          registerOptions={{ required: '이름은 필수입니다.' }}
+          registerOptions={{ required: '이름을 입력해주세요!' }}
         />
 
         <div className={inputContainerClass}>

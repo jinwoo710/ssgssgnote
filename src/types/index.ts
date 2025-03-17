@@ -48,9 +48,9 @@ export interface ApiResponse<T> {
 export interface Attendance {
   id: string
   studentId: string
-  studentName: string
+  student: Student
   date: string
   status: string
 }
 
-export type CreateAttendance = Omit<Attendance, 'id'>
+export type CreateAttendance = Omit<Attendance, 'id' | 'student'>

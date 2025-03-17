@@ -37,7 +37,6 @@ export default function AddStudentModal({
     onClose()
   }
 
-  if (!isOpen) return null
   const inputContainerClass = 'flex items-center gap-4'
   const labelClass = 'w-10 shrink-0'
   return (

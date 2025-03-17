@@ -116,7 +116,9 @@
       "title": "ㅅㄷㄴㅅ",
       "description": "ㄴㅇ",
       "date": "2025-02-25",
-      "unsubmittedStudentIds": ["546f"]
+      "unsubmittedStudentIds": [
+        "546f"
+      ]
     },
     {
       "title": "zx4",
@@ -147,7 +149,11 @@
       "title": "xsdfsd",
       "description": "x",
       "date": "2025-02-27",
-      "unsubmittedStudentIds": ["546f", "bd88", "af7d"],
+      "unsubmittedStudentIds": [
+        "546f",
+        "bd88",
+        "af7d"
+      ],
       "id": "af32"
     },
     {
@@ -223,6 +229,25 @@
       "studentId": "a0d1",
       "studentName": "34643",
       "date": "2025-2-27",
+      "status": "지각"
+    },
+    {
+      "id": "35a8",
+      "studentId": "3798",
+      "studentName": "쿵야쿵야쿵쿵ㅋ웈웈웈웈우쿵",
+      "date": "2025-2-27",
+      "status": "가정학습"
+    },
+    {
+      "id": "24bf",
+      "studentId": "1",
+      "date": "2025-2-27",
+      "status": "교외체험"
+    },
+    {
+      "id": "9a8a",
+      "studentId": "7a2c",
+      "date": "2025-3-6",
       "status": "지각"
     }
   ]

@@ -6,6 +6,7 @@ import { ATTENDANCE_STATUS } from '@/routes/constants/attendance'
 import { CreateAttendance, Student } from '@/types'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { motion } from 'framer-motion'
 
 export interface AttendanceModalProps {
   onClose: () => void
@@ -18,7 +19,11 @@ export default function AttendanceModal({
   isOpen,
   date
 }: AttendanceModalProps) {
-  const { createAttendance } = useAttendance()
+  const { attendance, createAttendance } = useAttendance(
+    date
+      ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      : undefined
+  )
   const { register, handleSubmit, reset } = useForm<CreateAttendance>()
   const { students } = useStudents()
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
@@ -33,7 +38,6 @@ export default function AttendanceModal({
     try {
       createAttendance({
         studentId: selectedStudent?.id,
-        studentName: selectedStudent?.name,
         date: `${targetDate.getFullYear()}-${targetDate.getMonth() + 1}-${targetDate.getDate()}`,
         status: data.status
       })
@@ -48,7 +52,7 @@ export default function AttendanceModal({
     <ModalLayout
       onClose={handleClose}
       isOpen={isOpen}>
-      <form
+      <motion.form
         onSubmit={handleSubmit(onSubmit)}
         className="modal-card max-w-[600px]">
         <div className="w-full flex justify-between">
@@ -78,7 +82,10 @@ export default function AttendanceModal({
           ))}
         </div>
         {selectedStudent && (
-          <div className="w-full flex-col md:flex-row justify-evenly items-center card p-1">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="w-full flex-col md:flex-row justify-evenly items-center card p-1">
             <div className="flex space-x-4 p-1 items-center">
               <div className="flex space-x-2">
                 <span className="shrink-0">이름 : {selectedStudent?.name}</span>
@@ -102,9 +109,31 @@ export default function AttendanceModal({
               className="btn shrink-0">
               등록하기
             </button>
-          </div>
+          </motion.div>
         )}
-      </form>
+        <div className="card min-h-[10vh] p-4 flex-col gap-1 overflow-y-auto">
+          {attendance?.length === 0 && (
+            <div className="w-full m-auto text-center">모두 출석했어요</div>
+          )}
+          {attendance?.map((list, index) => {
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2, delay: 0.1 * index }}
+                className="w-full flex justify-evenly  items-center">
+                <div className="w-[25%]">이름: {list.student.name}</div>
+                <div className="w-[20%]">사유: {list.status}</div>
+                <button
+                  type="button"
+                  className="btn shrink-0">
+                  삭제
+                </button>
+              </motion.div>
+            )
+          })}
+        </div>
+      </motion.form>
     </ModalLayout>
   )
 }

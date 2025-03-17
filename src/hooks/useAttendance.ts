@@ -1,12 +1,24 @@
 import { Attendance, CreateAttendance } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-const fetchAttendanceApi = async () => {
-  const response = await fetch('http://localhost:3000/attendance')
-  if (!response.ok) {
-    throw Error('fail to fetch attendance')
+const fetchAttendanceApi = async (date?: string): Promise<Attendance[]> => {
+  const url = new URL('http://localhost:3000/attendance')
+  if (date) {
+    url.searchParams.append('date', date)
   }
-  return response.json()
+  const response = await fetch(url)
+  const studentsResponse = await fetch('http://localhost:3000/students')
+  if (!studentsResponse.ok) {
+    throw Error('fail to fetch students')
+  }
+
+  const students = await studentsResponse.json()
+  return (await response.json()).map((attendance: { studentId: string }) => {
+    const student = students.find(
+      (student: { id: string }) => student.id === attendance.studentId
+    )
+    return { ...attendance, student }
+  })
 }
 
 const createAttendanceApi = async (attendance: CreateAttendance) => {
@@ -34,7 +46,7 @@ const updateAttendanceApi = async (attendance: Attendance) => {
   return response.json()
 }
 
-export default function useAttendance() {
+export default function useAttendance(date?: string) {
   const queryClient = useQueryClient()
 
   const {
@@ -42,8 +54,8 @@ export default function useAttendance() {
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['attendance'],
-    queryFn: fetchAttendanceApi
+    queryKey: ['attendance', date],
+    queryFn: () => fetchAttendanceApi(date)
   })
 
   const { mutateAsync: createAttendance, isPending } = useMutation({

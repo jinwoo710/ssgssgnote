@@ -6,6 +6,7 @@ import StudentNameTag from '@/routes/components/StudentNameTag'
 import { CreateHomework, Homework, Student } from '@/types'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { motion } from 'framer-motion'
 
 export interface HomeworkModalProps {
   onClose: () => void
@@ -121,6 +122,9 @@ export default function HomeworkModal({
         <div className="w-full flex flex-col gap-2">
           <span>제출 학생</span>
           <div className="card flex-wrap gap-1 p-2 max-h-[20vh] min-h-10 overflow-y-auto">
+            {selectedStudents.length == students?.length && (
+              <span className="mx-auto">아무도 제출하지 않았어요</span>
+            )}
             {students
               ?.filter(
                 student =>
@@ -130,15 +134,24 @@ export default function HomeworkModal({
               )
               .map(student => {
                 return (
-                  <div
+                  <motion.div
                     key={student.id}
                     onClick={() => handleStudentClick(student)}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 25,
+                      duration: 0.2
+                    }}
                     className="w-fit cursor-pointer">
                     <StudentNameTag
                       student={student}
                       simpleVersion
                     />
-                  </div>
+                  </motion.div>
                 )
               })}
           </div>
@@ -148,15 +161,24 @@ export default function HomeworkModal({
               <span className="mx-auto">모두 제출했어요!</span>
             )}
             {selectedStudents.map(student => (
-              <div
+              <motion.div
                 key={student.id}
                 onClick={() => handleSelectedStudentClick(student)}
-                className="w-fit cursor-pointer">
+                className="w-fit cursor-pointer"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.02, transition: { duration: 0.1 } }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 25,
+                  duration: 0.2
+                }}>
                 <StudentNameTag
                   student={student}
                   simpleVersion
                 />
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

@@ -33,18 +33,19 @@ export interface UpdateHomework {
 
 export interface Counseling {
   id: string
-  studentId: number
+  studentId: string
+  student: Student
   date: string
   content: string
   type: CounselingType
 }
 
-type CounselingType = 'study' | 'friend' | 'attitude' | 'parent'
+export type CounselingType = 'study' | 'friend' | 'attitude' | 'parent'
 
 export interface CreateCounseling {
   content: string
   date: string
-  studentId: number
+  studentId: string
   type: CounselingType
 }
 

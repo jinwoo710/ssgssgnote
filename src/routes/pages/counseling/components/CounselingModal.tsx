@@ -1,8 +1,10 @@
 import FormInput from '@/routes/components/FormInput'
 import ModalLayout from '@/routes/components/ModalLayout'
-import { Counseling, CreateCounseling, Student } from '@/types'
+import { Counseling, CounselingType, CreateCounseling, Student } from '@/types'
 import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
+import useCounseling from '@/hooks/useCounseling'
+import { useEffect } from 'react'
 
 export interface CounselingModalProps {
   onClose: () => void
@@ -16,26 +18,47 @@ export default function CounselingModal({
   student,
   counseling
 }: CounselingModalProps) {
+  const { createCounseling } = useCounseling({})
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors }
   } = useForm<CreateCounseling>()
 
   const isEditMode = !!counseling
 
+  useEffect(() => {
+    if (isOpen) {
+      if (isEditMode && counseling) {
+        reset({
+          content: counseling.content,
+          date: counseling.date,
+          type: counseling.type,
+          studentId: counseling.studentId
+        })
+      } else {
+        reset({
+          type: 'study',
+          content: '',
+          date: new Date().toISOString().substring(0, 10)
+        })
+      }
+    }
+  }, [counseling, reset, isOpen, isEditMode])
+
   const handleClose = () => {
-    reset({
-      type: 'study',
-      content: '',
-      date: new Date().toISOString().substring(0, 10)
-    })
+    reset()
     onClose()
   }
 
   const onSubmit = async (data: CreateCounseling) => {
     try {
+      if (!student) return
+      data.studentId = student?.id
+      data.type = data.type as CounselingType
+      await createCounseling(data)
       handleClose()
     } catch (error) {
       console.error(error)
@@ -67,7 +90,7 @@ export default function CounselingModal({
             <input
               className="radio radio-primary"
               {...register('type')}
-              defaultChecked
+              checked={watch('type') === 'study'}
               type="radio"
               name="type"
               value="study"
@@ -78,6 +101,7 @@ export default function CounselingModal({
             <input
               className="radio radio-primary"
               {...register('type')}
+              checked={watch('type') === 'friend'}
               type="radio"
               name="type"
               value="friend"
@@ -88,6 +112,7 @@ export default function CounselingModal({
             <input
               className="radio radio-primary"
               {...register('type')}
+              checked={watch('type') === 'attitude'}
               type="radio"
               name="type"
               value="attitude"
@@ -97,6 +122,7 @@ export default function CounselingModal({
           <label className="flex items-center gap-1 cursor-pointer">
             <input
               className="radio radio-primary"
+              checked={watch('type') === 'parent'}
               {...register('type')}
               type="radio"
               name="type"
@@ -108,17 +134,17 @@ export default function CounselingModal({
         <FormInput
           register={register}
           errors={errors}
-          name="content"
-          label="내용"
-          registerOptions={{ required: '내용을 입력해주세요' }}
-        />
-        <FormInput
-          register={register}
-          errors={errors}
           name="date"
           label="날짜"
           type="date"
           registerOptions={{ required: '날짜를 입력해주세요' }}
+        />
+        <FormInput
+          register={register}
+          errors={errors}
+          name="content"
+          label="내용"
+          registerOptions={{ required: '내용을 입력해주세요' }}
         />
 
         <button

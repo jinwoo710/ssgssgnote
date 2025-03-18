@@ -9,7 +9,7 @@ import React from 'react'
 
 export default function Attendance() {
   const [currentDate, setCurrentDate] = useState(new Date())
-  const { attendance, isLoading, isError } = useAttendance()
+  const { attendance, isLoading, isError } = useAttendance({})
 
   const [calendarDays, setCalendarDays] = useState<Date[]>([])
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
@@ -171,7 +171,7 @@ export default function Attendance() {
                 className="flex bg-white cursor-pointer flex-col justify-start items-center border border-black rounded-2xl min-h-[100px]">
                 <span
                   className={`${date.getMonth() === month ? '' : 'text-gray-500'} ${isToday(date) ? 'text-blue-800' : ''} text-xl rounded-t-2xl border-b border-gray-400 w-full text-center ${isToday(date) ? 'bg-gray-100' : ''}`}>
-                  {date.getDate()}
+                  {isToday(date) ? `오늘 (${date.getDate()})` : date.getDate()}
                 </span>
                 <div className="flex flex-col p-2 gap-1 w-full">
                   {attendance

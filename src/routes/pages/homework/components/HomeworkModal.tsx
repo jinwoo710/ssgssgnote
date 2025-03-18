@@ -90,7 +90,11 @@ export default function HomeworkModal({
         layout
         onSubmit={handleSubmit(onSubmit)}
         className="modal-card max-w-[600px]">
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-between">
+          <div />
+          <span className="text-2xl">
+            {isEditMode ? '숙제 수정하기' : '숙제 추가하기'}
+          </span>
           <button
             type="button"
             onClick={handleClose}

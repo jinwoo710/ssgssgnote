@@ -14,12 +14,7 @@ export default function Students() {
   const handleCloseModal = () => setIsAddModalOpen(false)
   return (
     <>
-      <div
-        className="white-paper"
-        style={{
-          backgroundImage: 'linear-gradient(#eee 1px, transparent 1px)',
-          backgroundSize: '100% 25px'
-        }}>
+      <div className="white-paper">
         <div className="flex flex-col justify-between lg:h-full space-y-2 lg:space-y-4">
           <div className="card lg:w-[260px] h-[300px] lg:flex-1 flex-col shrink-0">
             <div className="flex lg:block justify-between items-center bg-white rounded-t-xl border-b border-black">

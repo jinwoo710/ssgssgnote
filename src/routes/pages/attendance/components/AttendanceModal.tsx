@@ -19,7 +19,7 @@ export default function AttendanceModal({
   isOpen,
   date
 }: AttendanceModalProps) {
-  const { attendance, createAttendance } = useAttendance(
+  const { attendance, createAttendance, deleteAttendance } = useAttendance(
     date
       ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       : undefined
@@ -47,6 +47,15 @@ export default function AttendanceModal({
     }
   }
   const targetDate = new Date(date)
+
+  const handleDelete = (attendanceId: string) => {
+    try {
+      deleteAttendance(attendanceId)
+      handleClose()
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <ModalLayout
@@ -127,7 +136,8 @@ export default function AttendanceModal({
                 <div className="w-[20%]">사유: {list.status}</div>
                 <button
                   type="button"
-                  className="btn shrink-0">
+                  className="btn shrink-0"
+                  onClick={() => handleDelete(list.id)}>
                   삭제
                 </button>
               </motion.div>

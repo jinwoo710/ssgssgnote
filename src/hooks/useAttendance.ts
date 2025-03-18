@@ -46,6 +46,19 @@ const updateAttendanceApi = async (attendance: Attendance) => {
   return response.json()
 }
 
+const deleteAttendanceApi = async (attendanceId: string) => {
+  const response = await fetch(
+    `http://localhost:3000/attendance/${attendanceId}`,
+    {
+      method: 'DELETE'
+    }
+  )
+  if (!response.ok) {
+    throw Error('fail to delete attendance')
+  }
+  return response.json()
+}
+
 export default function useAttendance(date?: string) {
   const queryClient = useQueryClient()
 
@@ -73,11 +86,20 @@ export default function useAttendance(date?: string) {
       }
     })
 
+  const { mutateAsync: deleteAttendance, isPending: isDeletePending } =
+    useMutation({
+      mutationFn: deleteAttendanceApi,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['attendance'] })
+      }
+    })
+
   return {
     attendance,
-    isLoading: isLoading || isPending || isUpdatePending,
+    isLoading: isLoading || isPending || isUpdatePending || isDeletePending,
     isError,
     createAttendance,
-    updateAttendance
+    updateAttendance,
+    deleteAttendance
   }
 }

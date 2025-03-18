@@ -25,13 +25,9 @@ export default function Homework() {
   const { homeworks } = useHomeworks()
   return (
     <>
-      <div
-        className="white-paper flex-col space-y-4"
-        style={{
-          backgroundImage: 'linear-gradient(#eee 1px, transparent 1px)',
-          backgroundSize: '100% 25px'
-        }}>
-        <div className="w-full flex justify-end">
+      <div className="white-paper flex-col space-y-4">
+        <div className="w-full flex justify-between">
+          <div className="text-2xl">숙제 관리</div>
           <button
             className="btn"
             onClick={handleOpenModal}>

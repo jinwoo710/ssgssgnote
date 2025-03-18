@@ -9,7 +9,7 @@ export default function HomeworkItem({
 }: Homework) {
   return (
     <div
-      className={`card flex-col w-full  min-h-30 p-4 ${unsubmittedStudents.length == 0 ? 'bg-blue-200' : 'bg-red-200'} cursor-pointer`}>
+      className={`card flex-col w-full  min-h-30 p-4 ${unsubmittedStudents.length == 0 ? 'bg-[#e6f7e9]' : 'bg-[#fff9db]'} cursor-pointer`}>
       <div className="flex justify-start items-center">
         <div>{date}</div>
       </div>

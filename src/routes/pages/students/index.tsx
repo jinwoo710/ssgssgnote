@@ -1,11 +1,12 @@
 import useStudents from '@/hooks/useStudents'
 import StudentNameTag from '../../components/StudentNameTag'
 import { useEffect, useState } from 'react'
-import { Attendance, Homework, Student } from '@/types'
+import { Attendance, Counseling, Homework, Student } from '@/types'
 import AddStudentModal from './components/AddStudentModal'
 import { motion } from 'framer-motion'
 import useHomeworks from '@/hooks/useHomeworks'
 import useAttendance from '@/hooks/useAttendance'
+import useCounseling from '@/hooks/useCounseling'
 
 export default function Students() {
   const { students, isLoading, isError } = useStudents()
@@ -19,14 +20,20 @@ export default function Students() {
     Attendance[] | undefined
   >([])
 
+  const [selectedCounseling, setSelectedCounseling] = useState<
+    Counseling[] | undefined
+  >([])
+
   const { homeworks } = useHomeworks(selectedStudent?.id)
   const { attendance } = useAttendance({ studentId: selectedStudent?.id })
+  const { counselings } = useCounseling({ studentId: selectedStudent?.id })
 
   useEffect(() => {
     if (!selectedStudent) return
     setSelectedHomework(homeworks)
     setSelectedAttendance(attendance)
-  }, [selectedStudent, homeworks, attendance])
+    setSelectedCounseling(counselings)
+  }, [selectedStudent, homeworks, attendance, counselings])
 
   const handleOpenModal = () => setIsAddModalOpen(true)
   const handleCloseModal = () => setIsAddModalOpen(false)
@@ -79,7 +86,7 @@ export default function Students() {
                   key={attendance.id}
                   className="flex w-full bg-amber-200 space-x-3 card h-fit p-2 cursor-pointer">
                   <p>일자 : {attendance.date}</p>
-                  <p>상태 : {attendance.status}</p>
+                  <p>사유 : {attendance.status}</p>
                 </div>
               ))}{' '}
           </div>
@@ -99,9 +106,19 @@ export default function Students() {
           </div>
 
           <div className="card min-h-[100px] flex-1 p-4 flex-col">
-            <div className="flex w-full text-xl">
+            <div className="flex w-full text-xl flex-col">
               {selectedStudent?.name} 상담 현황
             </div>
+            {selectedCounseling &&
+              selectedCounseling.map(counseling => (
+                <div
+                  key={counseling.id}
+                  className="flex w-full bg-amber-200 space-x-3 card h-fit p-2 cursor-pointer">
+                  <p>제목 : {counseling.type}</p>
+                  <p>일자 : {counseling.date}</p>
+                  <p>내용 : {counseling.content}</p>
+                </div>
+              ))}
           </div>
         </div>
       </div>

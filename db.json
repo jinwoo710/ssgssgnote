@@ -120,7 +120,12 @@
       "title": "42",
       "description": "44",
       "date": "2025-03-16",
-      "unsubmittedStudentIds": ["bd88", "7a2c", "8de7", "18b7"],
+      "unsubmittedStudentIds": [
+        "bd88",
+        "7a2c",
+        "8de7",
+        "18b7"
+      ],
       "id": "244c"
     },
     {
@@ -128,13 +133,18 @@
       "title": "ㅅㄷㄴㅅ",
       "description": "ㄴㅇ",
       "date": "2025-02-25",
-      "unsubmittedStudentIds": ["546f"]
+      "unsubmittedStudentIds": [
+        "546f"
+      ]
     },
     {
       "title": "zx4",
       "description": "fas",
       "date": "2025-03-05",
-      "unsubmittedStudentIds": ["7a2c", "4a93"],
+      "unsubmittedStudentIds": [
+        "7a2c",
+        "4a93"
+      ],
       "id": "39b3"
     },
     {
@@ -159,7 +169,11 @@
       "title": "xsdfsd",
       "description": "x",
       "date": "2025-02-27",
-      "unsubmittedStudentIds": ["546f", "bd88", "af7d"],
+      "unsubmittedStudentIds": [
+        "546f",
+        "bd88",
+        "af7d"
+      ],
       "id": "af32"
     },
     {
@@ -203,16 +217,39 @@
       "title": "sd",
       "description": "sdf",
       "date": "2025-03-18",
-      "unsubmittedStudentIds": ["7a2c"]
+      "unsubmittedStudentIds": [
+        "7a2c"
+      ]
     }
   ],
   "counseling": [
     {
-      "id": "1",
-      "studentId": 1,
-      "date": "2025-03-02",
-      "title": "진로 상담",
-      "content": "포트 폴리오 제작 고민 중"
+      "id": "ad68",
+      "type": "study",
+      "date": "2025-03-07",
+      "content": "235234",
+      "studentId": "8de7"
+    },
+    {
+      "id": "5426",
+      "type": "study",
+      "date": "2025-03-13",
+      "content": "235235234cv dsf dsf asdf asdf asdf asd fasdf asd fds",
+      "studentId": "3798"
+    },
+    {
+      "id": "8bcb",
+      "type": "parent",
+      "date": "2025-03-07",
+      "content": "asdfsdf",
+      "studentId": "3798"
+    },
+    {
+      "id": "a537",
+      "type": "attitude",
+      "content": "ㄴㅇㄹㄴㅇㅎㄴㅇㄴㅇㄹㅇㄴ",
+      "date": "2025-03-18",
+      "studentId": "1"
     }
   ],
   "attendance": [
@@ -245,12 +282,6 @@
       "id": "58de",
       "studentId": "af7d",
       "date": "2025-2-28",
-      "status": "지각"
-    },
-    {
-      "id": "b194",
-      "studentId": "3798",
-      "date": "2025-2-27",
       "status": "지각"
     },
     {

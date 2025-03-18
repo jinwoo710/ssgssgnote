@@ -1,7 +1,6 @@
 import FormInput from '@/routes/components/FormInput'
 import ModalLayout from '@/routes/components/ModalLayout'
 import { Counseling, CreateCounseling, Student } from '@/types'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 

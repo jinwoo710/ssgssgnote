@@ -34,25 +34,7 @@ export default function Counseling() {
             </motion.div>
           ))}
         </div>
-        <div className="card flex-col w-full md:grid md:grid-cols-2 justify-center content-start p-4 gap-3 min-h-[600px]">
-          {counseling?.map((counseling, index) => (
-            <motion.div
-              onClick={() => null}
-              key={counseling.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-              transition={{
-                type: 'spring',
-                stiffness: 300,
-                damping: 25,
-                duration: 0.5,
-                delay: 0.1 * index
-              }}>
-              <HomeworkItem {...homework} />
-            </motion.div>
-          ))}
-        </div>
+        <div className="card flex-col w-full md:grid md:grid-cols-2 justify-center content-start p-4 gap-3 min-h-[600px]"></div>
       </div>
     </>
   )

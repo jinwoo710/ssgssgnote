@@ -4,6 +4,8 @@ import Layout from '../layouts'
 import Students from './students'
 import Homework from './homework'
 import Attendance from './attendance'
+import NotFound from './notfound'
+import Counseling from './counseling'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
       {
         path: '/homework',
         element: <Homework />
+      },
+      {
+        path: '/counseling',
+        element: <Counseling />
+      },
+      {
+        path: '*',
+        element: <NotFound />
       }
     ]
   }

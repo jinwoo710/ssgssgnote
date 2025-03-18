@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Students from '../pages/students'
 import Homework from '../pages/homework'
 import Attendance from '../pages/attendance'
+import Counseling from '../pages/counseling'
 
 export default function Layout() {
   const location = useLocation()
@@ -18,6 +19,8 @@ export default function Layout() {
         return <Homework />
       case '/attendance':
         return <Attendance />
+      case '/counseling':
+        return <Counseling />
       default:
         return <Outlet />
     }

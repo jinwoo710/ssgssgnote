@@ -31,12 +31,21 @@ export interface UpdateHomework {
   unsubmittedStudentIds: string[]
 }
 
-export interface Consultation {
+export interface Counseling {
   id: string
   studentId: number
   date: string
-  title: string
   content: string
+  type: CounselingType
+}
+
+type CounselingType = 'study' | 'friend' | 'attitude' | 'parent'
+
+export interface CreateCounseling {
+  content: string
+  date: string
+  studentId: number
+  type: CounselingType
 }
 
 export interface ApiResponse<T> {

@@ -26,7 +26,7 @@ export default function Students() {
     if (!selectedStudent) return
     setSelectedHomework(homeworks)
     setSelectedAttendance(attendance)
-  }, [selectedStudent])
+  }, [selectedStudent, homeworks, attendance])
 
   const handleOpenModal = () => setIsAddModalOpen(true)
   const handleCloseModal = () => setIsAddModalOpen(false)
@@ -50,15 +50,13 @@ export default function Students() {
             <div className="flex flex-col p-2 overflow-y-auto space-y-2 h-[600px]">
               {students?.map((student, index) => (
                 <motion.div
+                  key={student.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2, delay: index * 0.05 }}
                   whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
                   onClick={() => setSelectedStudent(student)}>
-                  <StudentNameTag
-                    key={student.id}
-                    student={student}
-                  />
+                  <StudentNameTag student={student} />
                 </motion.div>
               ))}
             </div>

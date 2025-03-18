@@ -107,6 +107,12 @@
       "gender": "male",
       "studentId": "5323",
       "name": "ww"
+    },
+    {
+      "id": "d2c3",
+      "gender": "male",
+      "studentId": "sdf",
+      "name": "4"
     }
   ],
   "homeworks": [
@@ -200,7 +206,7 @@
       "unsubmittedStudentIds": ["7a2c"]
     }
   ],
-  "consultations": [
+  "counseling": [
     {
       "id": "1",
       "studentId": 1,

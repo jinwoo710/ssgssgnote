@@ -6,6 +6,7 @@
   "scripts": {
     "watch:json-server": "json-server db.json --port 3000",
     "watch:vite": "vite",
+    "start": "vite",
     "dev": "concurrently npm:watch:*",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

@@ -1,0 +1,133 @@
+import FormInput from '@/routes/components/FormInput'
+import ModalLayout from '@/routes/components/ModalLayout'
+import { Counseling, CreateCounseling, Student } from '@/types'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { motion } from 'framer-motion'
+
+export interface CounselingModalProps {
+  onClose: () => void
+  isOpen: boolean
+  student?: Student | null
+  counseling?: Counseling | null
+}
+export default function CounselingModal({
+  onClose,
+  isOpen,
+  student,
+  counseling
+}: CounselingModalProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<CreateCounseling>()
+
+  const isEditMode = !!counseling
+
+  const handleClose = () => {
+    reset({
+      type: 'study',
+      content: '',
+      date: new Date().toISOString().substring(0, 10)
+    })
+    onClose()
+  }
+
+  const onSubmit = async (data: CreateCounseling) => {
+    try {
+      handleClose()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return (
+    <ModalLayout
+      onClose={handleClose}
+      isOpen={isOpen}>
+      <motion.form
+        layout
+        onSubmit={handleSubmit(onSubmit)}
+        className="modal-card max-w-[600px]">
+        <div className="w-full flex justify-between">
+          <div />
+          <span className="text-2xl">
+            {isEditMode ? '상담 수정하기' : '상담 추가하기'}
+          </span>
+          <button
+            type="button"
+            onClick={handleClose}
+            className="cursor-pointer">
+            닫기
+          </button>
+        </div>
+        <div className="flex gap-4">
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input
+              className="radio radio-primary"
+              {...register('type')}
+              defaultChecked
+              type="radio"
+              name="type"
+              value="study"
+            />
+            학업
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input
+              className="radio radio-primary"
+              {...register('type')}
+              type="radio"
+              name="type"
+              value="friend"
+            />
+            교우
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input
+              className="radio radio-primary"
+              {...register('type')}
+              type="radio"
+              name="type"
+              value="attitude"
+            />
+            태도
+          </label>
+          <label className="flex items-center gap-1 cursor-pointer">
+            <input
+              className="radio radio-primary"
+              {...register('type')}
+              type="radio"
+              name="type"
+              value="parent"
+            />
+            학부모
+          </label>
+        </div>
+        <FormInput
+          register={register}
+          errors={errors}
+          name="content"
+          label="내용"
+          registerOptions={{ required: '내용을 입력해주세요' }}
+        />
+        <FormInput
+          register={register}
+          errors={errors}
+          name="date"
+          label="날짜"
+          type="date"
+          registerOptions={{ required: '날짜를 입력해주세요' }}
+        />
+
+        <button
+          className="btn bg-gray-200"
+          type="submit">
+          {isEditMode ? '수정하기' : '추가하기'}
+        </button>
+      </motion.form>
+    </ModalLayout>
+  )
+}

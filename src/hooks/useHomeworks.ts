@@ -1,8 +1,10 @@
 import { CreateHomework, Homework, UpdateHomework } from '@/types'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
-const fetchHomeworksApi = async (): Promise<Homework[]> => {
-  const response = await fetch('http://localhost:3000/homeworks')
+const fetchHomeworksApi = async (studentId?: string): Promise<Homework[]> => {
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_SERVER_URL}/homeworks`
+  )
   if (!response.ok) {
     throw Error('fail to fetch homeworks')
   }
@@ -13,12 +15,14 @@ const fetchHomeworksApi = async (): Promise<Homework[]> => {
       new Date(end.date).getTime() - new Date(front.date).getTime()
   )
 
-  const studentsResponse = await fetch('http://localhost:3000/students')
+  const studentsResponse = await fetch(
+    `${import.meta.env.VITE_APP_SERVER_URL}/students`
+  )
   if (!studentsResponse.ok) {
     throw Error('fail to fetch students')
   }
   const students = await studentsResponse.json()
-  return homeworks.map(homework => {
+  homeworks = homeworks.map(homework => {
     const unsubmittedStudents = homework.unsubmittedStudentIds
       ? homework.unsubmittedStudentIds.map(id =>
           students.find((student: { id: string }) => student.id === id)
@@ -26,13 +30,25 @@ const fetchHomeworksApi = async (): Promise<Homework[]> => {
       : []
     return { ...homework, unsubmittedStudents }
   })
+
+  if (studentId) {
+    return homeworks.filter(
+      homework =>
+        homework.unsubmittedStudentIds &&
+        homework.unsubmittedStudentIds.includes(studentId)
+    )
+  }
+  return homeworks
 }
 
 const createHomeworkApi = async (homework: CreateHomework) => {
-  const response = await fetch('http://localhost:3000/homeworks', {
-    method: 'POST',
-    body: JSON.stringify(homework)
-  })
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_SERVER_URL}/homeworks`,
+    {
+      method: 'POST',
+      body: JSON.stringify(homework)
+    }
+  )
   if (!response.ok) {
     throw Error('fail to create homework')
   }
@@ -42,7 +58,7 @@ const createHomeworkApi = async (homework: CreateHomework) => {
 const updateHomeworkApi = async (homework: UpdateHomework) => {
   console.log(homework)
   const response = await fetch(
-    `http://localhost:3000/homeworks/${homework.id}`,
+    `${import.meta.env.VITE_APP_SERVER_URL}/homeworks/${homework.id}`,
     {
       method: 'PUT',
       body: JSON.stringify(homework)
@@ -54,7 +70,7 @@ const updateHomeworkApi = async (homework: UpdateHomework) => {
   return response.json()
 }
 
-export default function useHomeworks() {
+export default function useHomeworks(studentId?: string) {
   const queryClient = useQueryClient()
 
   const {
@@ -62,8 +78,8 @@ export default function useHomeworks() {
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['homeworks'],
-    queryFn: fetchHomeworksApi
+    queryKey: ['homeworks', studentId],
+    queryFn: () => fetchHomeworksApi(studentId)
   })
 
   const { mutateAsync: createHomework, isPending } = useMutation({

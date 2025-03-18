@@ -19,11 +19,11 @@ export default function AttendanceModal({
   isOpen,
   date
 }: AttendanceModalProps) {
-  const { attendance, createAttendance, deleteAttendance } = useAttendance(
-    date
+  const { attendance, createAttendance, deleteAttendance } = useAttendance({
+    date: date
       ? `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       : undefined
-  )
+  })
   const { register, handleSubmit, reset } = useForm<CreateAttendance>()
   const { students } = useStudents()
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)

@@ -1,13 +1,21 @@
 import { Attendance, CreateAttendance } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-const fetchAttendanceApi = async (date?: string): Promise<Attendance[]> => {
-  const url = new URL('http://localhost:3000/attendance')
+const fetchAttendanceApi = async (
+  date?: string,
+  studentId?: string
+): Promise<Attendance[]> => {
+  const url = new URL(`${import.meta.env.VITE_APP_SERVER_URL}/attendance`)
   if (date) {
     url.searchParams.append('date', date)
   }
+  if (studentId) {
+    url.searchParams.append('studentId', studentId)
+  }
   const response = await fetch(url)
-  const studentsResponse = await fetch('http://localhost:3000/students')
+  const studentsResponse = await fetch(
+    `${import.meta.env.VITE_APP_SERVER_URL}/students`
+  )
   if (!studentsResponse.ok) {
     throw Error('fail to fetch students')
   }
@@ -22,10 +30,13 @@ const fetchAttendanceApi = async (date?: string): Promise<Attendance[]> => {
 }
 
 const createAttendanceApi = async (attendance: CreateAttendance) => {
-  const response = await fetch('http://localhost:3000/attendance', {
-    method: 'POST',
-    body: JSON.stringify(attendance)
-  })
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_SERVER_URL}/attendance`,
+    {
+      method: 'POST',
+      body: JSON.stringify(attendance)
+    }
+  )
   if (!response.ok) {
     throw Error('fail to create attendance')
   }
@@ -34,7 +45,7 @@ const createAttendanceApi = async (attendance: CreateAttendance) => {
 
 const updateAttendanceApi = async (attendance: Attendance) => {
   const response = await fetch(
-    `http://localhost:3000/attendance/${attendance.id}`,
+    `${import.meta.env._URL}/attendance/${attendance.id}`,
     {
       method: 'PUT',
       body: JSON.stringify(attendance)
@@ -48,7 +59,7 @@ const updateAttendanceApi = async (attendance: Attendance) => {
 
 const deleteAttendanceApi = async (attendanceId: string) => {
   const response = await fetch(
-    `http://localhost:3000/attendance/${attendanceId}`,
+    `${import.meta.env.VITE_APP_SERVER_URL}/attendance/${attendanceId}`,
     {
       method: 'DELETE'
     }
@@ -59,7 +70,12 @@ const deleteAttendanceApi = async (attendanceId: string) => {
   return response.json()
 }
 
-export default function useAttendance(date?: string) {
+export interface useAttendanceProps {
+  date?: string
+  studentId?: string
+}
+
+export default function useAttendance({ date, studentId }: useAttendanceProps) {
   const queryClient = useQueryClient()
 
   const {
@@ -67,8 +83,8 @@ export default function useAttendance(date?: string) {
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['attendance', date],
-    queryFn: () => fetchAttendanceApi(date)
+    queryKey: ['attendance', date, studentId],
+    queryFn: () => fetchAttendanceApi(date, studentId)
   })
 
   const { mutateAsync: createAttendance, isPending } = useMutation({

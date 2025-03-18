@@ -100,7 +100,11 @@ export default function Students() {
               ))}
           </div>
 
-          <div className="card min-h-[100px] flex-1 p-4 flex-col"> </div>
+          <div className="card min-h-[100px] flex-1 p-4 flex-col">
+            <div className="flex w-full text-xl">
+              {selectedStudent?.name} 상담 현황
+            </div>
+          </div>
         </div>
       </div>
       <AddStudentModal

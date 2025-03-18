@@ -114,12 +114,7 @@
       "title": "42",
       "description": "44",
       "date": "2025-03-16",
-      "unsubmittedStudentIds": [
-        "bd88",
-        "7a2c",
-        "8de7",
-        "18b7"
-      ],
+      "unsubmittedStudentIds": ["bd88", "7a2c", "8de7", "18b7"],
       "id": "244c"
     },
     {
@@ -127,18 +122,13 @@
       "title": "ㅅㄷㄴㅅ",
       "description": "ㄴㅇ",
       "date": "2025-02-25",
-      "unsubmittedStudentIds": [
-        "546f"
-      ]
+      "unsubmittedStudentIds": ["546f"]
     },
     {
       "title": "zx4",
       "description": "fas",
       "date": "2025-03-05",
-      "unsubmittedStudentIds": [
-        "7a2c",
-        "4a93"
-      ],
+      "unsubmittedStudentIds": ["7a2c", "4a93"],
       "id": "39b3"
     },
     {
@@ -163,11 +153,7 @@
       "title": "xsdfsd",
       "description": "x",
       "date": "2025-02-27",
-      "unsubmittedStudentIds": [
-        "546f",
-        "bd88",
-        "af7d"
-      ],
+      "unsubmittedStudentIds": ["546f", "bd88", "af7d"],
       "id": "af32"
     },
     {
@@ -211,9 +197,7 @@
       "title": "sd",
       "description": "sdf",
       "date": "2025-03-18",
-      "unsubmittedStudentIds": [
-        "7a2c"
-      ]
+      "unsubmittedStudentIds": ["7a2c"]
     }
   ],
   "consultations": [

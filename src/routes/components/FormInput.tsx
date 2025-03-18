@@ -5,6 +5,7 @@ import {
   RegisterOptions,
   UseFormRegister
 } from 'react-hook-form'
+import { motion } from 'framer-motion'
 
 interface FormInputProps<T extends FieldValues> {
   register: UseFormRegister<T>
@@ -36,7 +37,12 @@ export default function FormInput<T extends FieldValues>({
           className="rounded-md border flex-1 px-2"
         />
         {errors[name] && (
-          <span className="text-red-500">{errors[name].message as string}</span>
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-red-500">
+            {errors[name].message as string}
+          </motion.span>
         )}
       </div>
     </div>

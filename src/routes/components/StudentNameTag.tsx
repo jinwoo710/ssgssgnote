@@ -6,16 +6,18 @@ interface StudentNameTag {
   student: Student
   simpleVersion?: boolean
   miniVersion?: boolean
+  sliceVersion?: boolean
 }
 export default function StudentNameTag({
   student,
   simpleVersion = false,
-  miniVersion = false
+  miniVersion = false,
+  sliceVersion = false
 }: StudentNameTag) {
   return (
     <div
       key={student.id}
-      className={`flex w-full rounded-lg p-4 space-x-2 border cursor-pointer h-fit ${student.gender == 'male' ? 'bg-blue-100' : 'bg-pink-100'}`}>
+      className={`flex w-full rounded-lg p-4 space-x-2 border cursor-pointer h-fit ${student.gender == 'male' ? 'bg-blue-100' : 'bg-pink-100'} ${sliceVersion ? 'py-0' : ''}`}>
       {simpleVersion || miniVersion ? null : (
         <img
           src={student.gender == 'male' ? boyIcon : girlIcon}

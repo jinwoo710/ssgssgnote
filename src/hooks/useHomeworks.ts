@@ -1,7 +1,7 @@
 import { CreateHomework, Homework, UpdateHomework } from '@/types'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
-const fetchHomeworksApi = async () => {
+const fetchHomeworksApi = async (): Promise<Homework[]> => {
   const response = await fetch('http://localhost:3000/homeworks')
   if (!response.ok) {
     throw Error('fail to fetch homeworks')

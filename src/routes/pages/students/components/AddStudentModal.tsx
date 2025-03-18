@@ -37,7 +37,6 @@ export default function AddStudentModal({
     onClose()
   }
 
-  if (!isOpen) return null
   const inputContainerClass = 'flex items-center gap-4'
   const labelClass = 'w-10 shrink-0'
   return (
@@ -59,7 +58,7 @@ export default function AddStudentModal({
           errors={errors}
           name="name"
           label="이름"
-          registerOptions={{ required: '이름은 필수입니다.' }}
+          registerOptions={{ required: '이름을 입력해주세요!' }}
         />
 
         <div className={inputContainerClass}>

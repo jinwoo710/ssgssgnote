@@ -9,7 +9,7 @@ import useAttendance from '@/hooks/useAttendance'
 import useCounseling from '@/hooks/useCounseling'
 
 export default function Students() {
-  const { students, isLoading, isError } = useStudents()
+  const { students } = useStudents()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
 
@@ -25,7 +25,7 @@ export default function Students() {
   >([])
 
   const { homeworks } = useHomeworks(selectedStudent?.id)
-  const { attendance } = useAttendance({ studentId: selectedStudent?.id })
+  const { attendance } = useAttendance({})
   const { counselings } = useCounseling({ studentId: selectedStudent?.id })
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Students() {
     setSelectedHomework(homeworks)
     setSelectedAttendance(attendance)
     setSelectedCounseling(counselings)
-  }, [selectedStudent, homeworks, attendance, counselings])
+  }, [selectedStudent])
 
   const handleOpenModal = () => setIsAddModalOpen(true)
   const handleCloseModal = () => setIsAddModalOpen(false)

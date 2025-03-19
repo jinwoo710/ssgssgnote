@@ -1,6 +1,12 @@
 import FormInput from '@/routes/components/FormInput'
 import ModalLayout from '@/routes/components/ModalLayout'
-import { Counseling, CounselingType, CreateCounseling, Student } from '@/types'
+import {
+  Counseling,
+  CounselingType,
+  CreateCounseling,
+  Student,
+  UpdateCounseling
+} from '@/types'
 import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import useCounseling from '@/hooks/useCounseling'
@@ -18,7 +24,7 @@ export default function CounselingModal({
   student,
   counseling
 }: CounselingModalProps) {
-  const { createCounseling } = useCounseling({})
+  const { createCounseling, updateCounseling } = useCounseling({})
   const {
     register,
     handleSubmit,
@@ -53,18 +59,31 @@ export default function CounselingModal({
     onClose()
   }
 
-  const onSubmit = async (data: CreateCounseling) => {
+  const onSubmit = async (data: any) => {
     try {
-      if (!student) return
-      data.studentId = student?.id
-      data.type = data.type as CounselingType
-      await createCounseling(data)
+      if (isEditMode && counseling) {
+        const updateData: UpdateCounseling = {
+          id: counseling.id,
+          studentId: counseling.studentId,
+          content: data.content,
+          date: data.date,
+          type: data.type as CounselingType
+        }
+        await updateCounseling(updateData)
+      } else if (student) {
+        const createData: CreateCounseling = {
+          studentId: student.id,
+          content: data.content,
+          date: data.date,
+          type: data.type as CounselingType
+        }
+        await createCounseling(createData)
+      }
       handleClose()
     } catch (error) {
-      console.error(error)
+      console.error('fail to create or update counseling', error)
     }
   }
-
   return (
     <ModalLayout
       onClose={handleClose}

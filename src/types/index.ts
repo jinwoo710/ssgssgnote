@@ -49,6 +49,14 @@ export interface CreateCounseling {
   type: CounselingType
 }
 
+export interface UpdateCounseling {
+  id: string
+  studentId: string
+  content: string
+  date: string
+  type: CounselingType
+}
+
 export interface ApiResponse<T> {
   data: T
   status: number

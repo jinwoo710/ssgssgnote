@@ -9,7 +9,7 @@ import React from 'react'
 
 export default function Attendance() {
   const [currentDate, setCurrentDate] = useState(new Date())
-  const { attendance, isLoading, isError } = useAttendance({})
+  const { attendance } = useAttendance({})
 
   const [calendarDays, setCalendarDays] = useState<Date[]>([])
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)

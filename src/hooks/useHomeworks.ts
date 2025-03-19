@@ -2,9 +2,7 @@ import { CreateHomework, Homework, UpdateHomework } from '@/types'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 
 const fetchHomeworksApi = async (studentId?: string): Promise<Homework[]> => {
-  const response = await fetch(
-    `${import.meta.env.VITE_APP_SERVER_URL}/homeworks`
-  )
+  const response = await fetch(`/api/homeworks`)
   if (!response.ok) {
     throw Error('fail to fetch homeworks')
   }
@@ -15,9 +13,7 @@ const fetchHomeworksApi = async (studentId?: string): Promise<Homework[]> => {
       new Date(end.date).getTime() - new Date(front.date).getTime()
   )
 
-  const studentsResponse = await fetch(
-    `${import.meta.env.VITE_APP_SERVER_URL}/students`
-  )
+  const studentsResponse = await fetch(`/api/students`)
   if (!studentsResponse.ok) {
     throw Error('fail to fetch students')
   }
@@ -42,13 +38,10 @@ const fetchHomeworksApi = async (studentId?: string): Promise<Homework[]> => {
 }
 
 const createHomeworkApi = async (homework: CreateHomework) => {
-  const response = await fetch(
-    `${import.meta.env.VITE_APP_SERVER_URL}/homeworks`,
-    {
-      method: 'POST',
-      body: JSON.stringify(homework)
-    }
-  )
+  const response = await fetch(`/api/homeworks`, {
+    method: 'POST',
+    body: JSON.stringify(homework)
+  })
   if (!response.ok) {
     throw Error('fail to create homework')
   }
@@ -56,16 +49,22 @@ const createHomeworkApi = async (homework: CreateHomework) => {
 }
 
 const updateHomeworkApi = async (homework: UpdateHomework) => {
-  console.log(homework)
-  const response = await fetch(
-    `${import.meta.env.VITE_APP_SERVER_URL}/homeworks/${homework.id}`,
-    {
-      method: 'PUT',
-      body: JSON.stringify(homework)
-    }
-  )
+  const response = await fetch(`/api/homeworks/${homework.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(homework)
+  })
   if (!response.ok) {
     throw Error('fail to update homework')
+  }
+  return response.json()
+}
+
+const deleteHomeworkApi = async (homeworkId: string) => {
+  const response = await fetch(`/api/homeworks/${homeworkId}`, {
+    method: 'DELETE'
+  })
+  if (!response.ok) {
+    throw Error('fail to delete homework')
   }
   return response.json()
 }
@@ -97,11 +96,20 @@ export default function useHomeworks(studentId?: string) {
       }
     })
 
+  const { mutateAsync: deleteHomework, isPending: isDeletePending } =
+    useMutation({
+      mutationFn: deleteHomeworkApi,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['homeworks'] })
+      }
+    })
+
   return {
     homeworks,
-    isLoading: isLoading || isPending || isUpdatePending,
+    isLoading: isLoading || isPending || isUpdatePending || isDeletePending,
     isError,
     createHomework,
-    updateHomework
+    updateHomework,
+    deleteHomework
   }
 }

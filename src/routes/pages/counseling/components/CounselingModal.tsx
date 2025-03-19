@@ -24,8 +24,7 @@ export default function CounselingModal({
   student,
   counseling
 }: CounselingModalProps) {
-  const { createCounseling, updateCounseling, deleteCounseling } =
-    useCounseling({})
+  const { createCounseling, updateCounseling } = useCounseling({})
   const {
     register,
     handleSubmit,

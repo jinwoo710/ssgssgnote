@@ -37,7 +37,7 @@ export default function CounselingItem({ counseling }: CounselingItemProps) {
       <div className="flex justify-between px-2">
         <div className="text-lg">{counseling.date}</div>
         <div className="text-lg">
-          {counseling.student.name} / {translator(counseling.type)}
+          {counseling.student?.name} / {translator(counseling.type)}
         </div>
       </div>
       <div className="text-lg">{counseling.content}</div>

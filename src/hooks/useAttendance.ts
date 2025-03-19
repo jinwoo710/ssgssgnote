@@ -5,38 +5,29 @@ const fetchAttendanceApi = async (
   date?: string,
   studentId?: string
 ): Promise<Attendance[]> => {
-  const url = new URL(`${import.meta.env.VITE_APP_SERVER_URL}/attendance`)
+  let url = '/api/attendance'
+  const params = []
   if (date) {
-    url.searchParams.append('date', date)
+    params.push(`date=${date}`)
   }
   if (studentId) {
-    url.searchParams.append('studentId', studentId)
+    params.push(`studentId=${studentId}`)
+  }
+  if (params.length > 0) {
+    url += `?${params.join('&')}`
   }
   const response = await fetch(url)
-  const studentsResponse = await fetch(
-    `${import.meta.env.VITE_APP_SERVER_URL}/students`
-  )
-  if (!studentsResponse.ok) {
-    throw Error('fail to fetch students')
+  if (!response.ok) {
+    throw Error('fail to fetch attendance')
   }
-
-  const students = await studentsResponse.json()
-  return (await response.json()).map((attendance: { studentId: string }) => {
-    const student = students.find(
-      (student: { id: string }) => student.id === attendance.studentId
-    )
-    return { ...attendance, student }
-  })
+  return response.json()
 }
 
 const createAttendanceApi = async (attendance: CreateAttendance) => {
-  const response = await fetch(
-    `${import.meta.env.VITE_APP_SERVER_URL}/attendance`,
-    {
-      method: 'POST',
-      body: JSON.stringify(attendance)
-    }
-  )
+  const response = await fetch('/api/attendance', {
+    method: 'POST',
+    body: JSON.stringify(attendance)
+  })
   if (!response.ok) {
     throw Error('fail to create attendance')
   }
@@ -44,13 +35,10 @@ const createAttendanceApi = async (attendance: CreateAttendance) => {
 }
 
 const updateAttendanceApi = async (attendance: Attendance) => {
-  const response = await fetch(
-    `${import.meta.env._URL}/attendance/${attendance.id}`,
-    {
-      method: 'PUT',
-      body: JSON.stringify(attendance)
-    }
-  )
+  const response = await fetch(`/api/attendance/${attendance.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(attendance)
+  })
   if (!response.ok) {
     throw Error('fail to update attendance')
   }
@@ -58,12 +46,9 @@ const updateAttendanceApi = async (attendance: Attendance) => {
 }
 
 const deleteAttendanceApi = async (attendanceId: string) => {
-  const response = await fetch(
-    `${import.meta.env.VITE_APP_SERVER_URL}/attendance/${attendanceId}`,
-    {
-      method: 'DELETE'
-    }
-  )
+  const response = await fetch(`/api/attendance/${attendanceId}`, {
+    method: 'DELETE'
+  })
   if (!response.ok) {
     throw Error('fail to delete attendance')
   }

@@ -1,0 +1,11 @@
+name = "teacher-helper"
+compatibility_date = "2025-02-24"
+
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ssgssgnote-db"
+database_id =  "992ddb84-1b4e-407d-882f-5973518d93c1"
+
+migrations_dir = 'drizzle'

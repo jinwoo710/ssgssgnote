@@ -3,8 +3,19 @@ import './index.css'
 import Router from './routes/pages'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000,
+      refetchInterval: false,
+      refetchIntervalInBackground: false
+    }
+  }
+})
+
 createRoot(document.getElementById('root')!).render(
-  <QueryClientProvider client={new QueryClient()}>
+  <QueryClientProvider client={queryClient}>
     <Router />
   </QueryClientProvider>
 )

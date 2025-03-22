@@ -7,6 +7,6 @@ export default function ItemSkeleton() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex w-full h-[42px] bg-gray-200 animate-pulse"></motion.div>
+      className="flex w-full h-[42px] rounded-xl bg-gray-200 animate-pulse"></motion.div>
   )
 }

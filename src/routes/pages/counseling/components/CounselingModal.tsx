@@ -126,9 +126,7 @@ export default function CounselingModal({
             <input
               className="radio radio-primary"
               {...register('type')}
-              checked={watch('type') === 'study'}
               type="radio"
-              name="type"
               value="study"
             />
             학업
@@ -137,9 +135,7 @@ export default function CounselingModal({
             <input
               className="radio radio-primary"
               {...register('type')}
-              checked={watch('type') === 'friend'}
               type="radio"
-              name="type"
               value="friend"
             />
             교우
@@ -148,9 +144,7 @@ export default function CounselingModal({
             <input
               className="radio radio-primary"
               {...register('type')}
-              checked={watch('type') === 'attitude'}
               type="radio"
-              name="type"
               value="attitude"
             />
             태도
@@ -158,10 +152,8 @@ export default function CounselingModal({
           <label className="flex items-center gap-1 cursor-pointer">
             <input
               className="radio radio-primary"
-              checked={watch('type') === 'parent'}
               {...register('type')}
               type="radio"
-              name="type"
               value="parent"
             />
             학부모

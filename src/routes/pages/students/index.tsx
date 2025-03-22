@@ -9,6 +9,9 @@ import useAttendance from '@/hooks/useAttendance'
 import useCounseling from '@/hooks/useCounseling'
 import StudentNameTagSkeleton from '@/routes/components/StudentNameTagSkeleton'
 import ItemSkeleton from './components/ItemSkeleton'
+import HomeworkModal from '../homework/components/HomeworkModal'
+import AttendanceModal from '../attendance/components/AttendanceModal'
+import CounselingModal from '../counseling/components/CounselingModal'
 
 export default function Students() {
   const { students, isLoading } = useStudents()
@@ -18,13 +21,51 @@ export default function Students() {
   const [selectedHomework, setSelectedHomework] = useState<
     Homework[] | undefined
   >([])
+  const [pickedHomework, setPickedHomework] = useState<Homework | null>(null)
+  const [isEditHomeworkModalOpen, setIsEditHomeworkModalOpen] = useState(false)
+
+  const handleOpenEditHomeworkModal = (homework: Homework) => {
+    setPickedHomework(homework)
+    setIsEditHomeworkModalOpen(true)
+  }
+  const handleEditHomeworkModalClose = () => {
+    setIsEditHomeworkModalOpen(false)
+    setPickedHomework(null)
+  }
   const [selectedAttendance, setSelectedAttendance] = useState<
     Attendance[] | undefined
   >([])
 
+  const [pickedAttendance, setPickedAttendance] = useState<Attendance | null>(
+    null
+  )
+  const [isEditAttendanceModalOpen, setIsEditAttendanceModalOpen] =
+    useState(false)
+
+  const handleOpenEditAttendanceModal = (attendance: Attendance) => {
+    setPickedAttendance(attendance)
+    setIsEditAttendanceModalOpen(true)
+  }
+  const handleEditAttendanceModalClose = () => {
+    setIsEditAttendanceModalOpen(false)
+    setPickedAttendance(null)
+  }
   const [selectedCounseling, setSelectedCounseling] = useState<
     Counseling[] | undefined
   >([])
+  const [pickedCounseling, setPickedCounseling] = useState<Counseling | null>(
+    null
+  )
+  const [isEditCounselingModalOpen, setIsEditCounselingModalOpen] =
+    useState(false)
+  const handleOpenEditCounselingModal = (counseling: Counseling) => {
+    setPickedCounseling(counseling)
+    setIsEditCounselingModalOpen(true)
+  }
+  const handleEditCounselingModalClose = () => {
+    setIsEditCounselingModalOpen(false)
+    setPickedCounseling(null)
+  }
 
   const { homeworks, isLoading: homeworksLoading } = useHomeworks(
     selectedStudent?.id
@@ -105,13 +146,20 @@ export default function Students() {
                     </div>
                   )}
                 {attendanceLoading
-                  ? [...Array(4)].map((_, index) => (
+                  ? [...Array(3)].map((_, index) => (
                       <ItemSkeleton key={`skeleton-${index}`} />
                     ))
                   : selectedAttendance?.map(
                       (attendance, index) =>
                         index < 5 && (
                           <motion.div
+                            onClick={() =>
+                              handleOpenEditAttendanceModal(attendance)
+                            }
+                            whileHover={{
+                              scale: 1.02,
+                              transition: { duration: 0.2 }
+                            }}
                             key={attendance.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -121,8 +169,8 @@ export default function Students() {
                               type: 'tween'
                             }}
                             className="flex w-full bg-yellow-200 space-x-3 card h-fit p-2 cursor-pointer">
-                            <p>{attendance.date} / </p>
-                            <p>{attendance.status}</p>
+                            <p className="shrink-0">{attendance.date} </p>
+                            <p>사유 : {attendance.status}</p>
                           </motion.div>
                         )
                     )}
@@ -144,7 +192,7 @@ export default function Students() {
                     </div>
                   )}
                 {homeworksLoading
-                  ? [...Array(4)].map((_, index) => (
+                  ? [...Array(3)].map((_, index) => (
                       <ItemSkeleton key={`skeleton-${index}`} />
                     ))
                   : selectedHomework &&
@@ -152,6 +200,13 @@ export default function Students() {
                       (homework, index) =>
                         index < 5 && (
                           <motion.div
+                            onClick={() =>
+                              handleOpenEditHomeworkModal(homework)
+                            }
+                            whileHover={{
+                              scale: 1.02,
+                              transition: { duration: 0.2 }
+                            }}
                             key={homework.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -161,8 +216,8 @@ export default function Students() {
                               type: 'tween'
                             }}
                             className="flex w-full bg-red-200 space-x-3 card h-fit p-2 cursor-pointer">
-                            <p>{homework.title} </p>
-                            <p>{homework.date} </p>
+                            <p className="shrink-0">{homework.date} </p>
+                            <p>내용: {homework.title} </p>
                           </motion.div>
                         )
                     )}
@@ -184,7 +239,7 @@ export default function Students() {
                     </div>
                   )}
                 {counselingsLoading
-                  ? [...Array(4)].map((_, index) => (
+                  ? [...Array(3)].map((_, index) => (
                       <ItemSkeleton key={`skeleton-${index}`} />
                     ))
                   : selectedCounseling &&
@@ -192,6 +247,13 @@ export default function Students() {
                       (counseling, index) =>
                         index < 5 && (
                           <motion.div
+                            onClick={() =>
+                              handleOpenEditCounselingModal(counseling)
+                            }
+                            whileHover={{
+                              scale: 1.02,
+                              transition: { duration: 0.2 }
+                            }}
                             key={counseling.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -201,8 +263,8 @@ export default function Students() {
                               type: 'tween'
                             }}
                             className="flex w-full bg-green-200 space-x-3 card h-fit p-2 cursor-pointer">
+                            <p className="shrink-0">{counseling.date}</p>
                             <p>내용 : {counseling.content}</p>
-                            <p>일자 : {counseling.date}</p>
                           </motion.div>
                         )
                     )}
@@ -214,6 +276,21 @@ export default function Students() {
       <AddStudentModal
         isOpen={isAddModalOpen}
         onClose={handleCloseModal}
+      />
+      <HomeworkModal
+        isOpen={isEditHomeworkModalOpen}
+        onClose={handleEditHomeworkModalClose}
+        homework={pickedHomework}
+      />
+      <AttendanceModal
+        isOpen={isEditAttendanceModalOpen}
+        onClose={handleEditAttendanceModalClose}
+        date={pickedAttendance?.date ? new Date(pickedAttendance?.date) : null}
+      />
+      <CounselingModal
+        isOpen={isEditCounselingModalOpen}
+        onClose={handleEditCounselingModalClose}
+        counseling={pickedCounseling}
       />
     </>
   )

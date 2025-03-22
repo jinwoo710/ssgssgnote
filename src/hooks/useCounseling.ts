@@ -3,10 +3,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const fetchCounselingApi = async (studentId?: string) => {
   let url = '/api/counseling'
-  const params = []
 
   if (studentId) {
-    params.push(`?studentId=${studentId}`)
+    url += `?studentId=${studentId}`
   }
 
   const response = await fetch(url)

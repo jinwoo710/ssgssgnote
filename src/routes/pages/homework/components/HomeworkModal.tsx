@@ -6,7 +6,8 @@ import StudentNameTag from '@/routes/components/StudentNameTag'
 import { CreateHomework, Homework, Student } from '@/types'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import DeletePopup from '@/routes/components/DeletePopup'
 
 export interface HomeworkModalProps {
   onClose: () => void
@@ -18,8 +19,8 @@ export default function HomeworkModal({
   isOpen,
   homework
 }: HomeworkModalProps) {
-  const { students } = useStudents()
-  const { createHomework, updateHomework } = useHomeworks()
+  const { students, isLoading } = useStudents()
+  const { createHomework, updateHomework, deleteHomework } = useHomeworks()
   const [selectedStudents, setSelectedStudents] = useState<Student[]>([])
   const {
     register,
@@ -29,6 +30,7 @@ export default function HomeworkModal({
   } = useForm<CreateHomework>()
 
   const isEditMode = !!homework
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
@@ -51,13 +53,14 @@ export default function HomeworkModal({
   }, [homework, reset, isOpen, isEditMode])
 
   const handleClose = () => {
+    onClose()
     reset({
       title: '',
       description: '',
       date: new Date().toISOString().substring(0, 10)
     })
     setSelectedStudents([])
-    onClose()
+    setIsDeleteModalOpen(false)
   }
 
   const handleStudentClick = (student: Student) => {
@@ -79,6 +82,21 @@ export default function HomeworkModal({
       handleClose()
     } catch (error) {
       console.error(error)
+    }
+  }
+
+  const handleCancel = () => {
+    setIsDeleteModalOpen(false)
+  }
+
+  const handleDelete = async () => {
+    try {
+      if (homework) {
+        await deleteHomework(homework.id)
+        handleClose()
+      }
+    } catch (error) {
+      console.error('fail to delete homework', error)
     }
   }
 
@@ -129,38 +147,49 @@ export default function HomeworkModal({
           className="w-full flex flex-col gap-2">
           <span>제출 학생</span>
           <div className="card flex-wrap gap-1 p-2 max-h-[20vh] min-h-10 overflow-y-auto">
+            <AnimatePresence>
+              {isLoading
+                ? [...Array(4)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="w-20 card border-none h-[58px] bg-gray-200 animate-pulse"></div>
+                  ))
+                : students
+                    ?.filter(
+                      student =>
+                        !selectedStudents.some(
+                          selectedStudent => selectedStudent.id === student.id
+                        )
+                    )
+                    .map(student => {
+                      return (
+                        <motion.div
+                          key={student.id}
+                          onClick={() => handleStudentClick(student)}
+                          initial={{ opacity: 0, y: 50 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          whileHover={{
+                            scale: 1.02,
+                            transition: { duration: 0.2 }
+                          }}
+                          transition={{
+                            type: 'spring',
+                            stiffness: 300,
+                            damping: 25,
+                            duration: 0.2
+                          }}
+                          className="w-fit cursor-pointer">
+                          <StudentNameTag
+                            student={student}
+                            simpleVersion
+                          />
+                        </motion.div>
+                      )
+                    })}
+            </AnimatePresence>
             {selectedStudents.length == students?.length && (
               <span className="mx-auto">아무도 제출하지 않았어요</span>
             )}
-            {students
-              ?.filter(
-                student =>
-                  !selectedStudents.some(
-                    selectedStudent => selectedStudent.id === student.id
-                  )
-              )
-              .map(student => {
-                return (
-                  <motion.div
-                    key={student.id}
-                    onClick={() => handleStudentClick(student)}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 25,
-                      duration: 0.2
-                    }}
-                    className="w-fit cursor-pointer">
-                    <StudentNameTag
-                      student={student}
-                      simpleVersion
-                    />
-                  </motion.div>
-                )
-              })}
           </div>
           <span>미제출 학생</span>
           <div className="card flex-wrap gap-1 p-2  max-h-[20vh] min-h-10 overflow-y-auto">
@@ -189,12 +218,28 @@ export default function HomeworkModal({
             ))}
           </div>
         </motion.div>
-        <button
-          className="btn bg-gray-200"
-          type="submit">
-          {isEditMode ? '수정하기' : '추가하기'}
-        </button>
+        <div className="flex justify-between space-x-2">
+          {isEditMode && (
+            <motion.button
+              type="button"
+              onClick={() => setIsDeleteModalOpen(true)}
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              className="btn flex-1 bg-red-200 shrink-0">
+              삭제하기
+            </motion.button>
+          )}
+          <button
+            className="btn bg-gray-200 flex-6"
+            type="submit">
+            {isEditMode ? '수정하기' : '추가하기'}
+          </button>
+        </div>
       </motion.form>
+      <DeletePopup
+        isOpen={isDeleteModalOpen}
+        handleDelete={handleDelete}
+        handleCancel={handleCancel}
+      />
     </ModalLayout>
   )
 }

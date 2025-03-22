@@ -3,7 +3,8 @@ import HomeworkItem from './components/HomeworkItem'
 import HomeworkModal from './components/HomeworkModal'
 import useHomeworks from '@/hooks/useHomeworks'
 import type { Homework } from '@/types'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import HomeworkItemSkeleton from './components/HomeworkItemSkeleton'
 
 export default function Homework() {
   const [isAddHomeworkModalOpen, setIsAddHomeworkModalOpen] = useState(false)
@@ -22,7 +23,7 @@ export default function Homework() {
     setSelectedHomework(homework)
     handleOpenModal()
   }
-  const { homeworks } = useHomeworks()
+  const { homeworks, isLoading } = useHomeworks()
   return (
     <>
       <div className="white-paper flex-col space-y-4">
@@ -36,23 +37,29 @@ export default function Homework() {
         </div>
 
         <div className="card flex-col w-full md:grid md:grid-cols-2 justify-center content-start p-4 gap-3 min-h-[600px]">
-          {homeworks?.map((homework, index) => (
-            <motion.div
-              onClick={() => handleEditHomework(homework)}
-              key={homework.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-              transition={{
-                type: 'spring',
-                stiffness: 300,
-                damping: 25,
-                duration: 0.5,
-                delay: 0.1 * index
-              }}>
-              <HomeworkItem {...homework} />
-            </motion.div>
-          ))}
+          <AnimatePresence mode="wait">
+            {isLoading
+              ? [...Array(4)].map((_, index) => (
+                  <HomeworkItemSkeleton key={index} />
+                ))
+              : homeworks?.map((homework, index) => (
+                  <motion.div
+                    onClick={() => handleEditHomework(homework)}
+                    key={homework.id}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 25,
+                      duration: 0.5,
+                      delay: 0.1 * Math.floor(index / 2)
+                    }}>
+                    <HomeworkItem {...homework} />
+                  </motion.div>
+                ))}
+          </AnimatePresence>
         </div>
       </div>
       <HomeworkModal

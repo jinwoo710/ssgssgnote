@@ -6,7 +6,9 @@ import { ATTENDANCE_STATUS } from '@/routes/constants/attendance'
 import { CreateAttendance, Student } from '@/types'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import DeletePopup from '@/routes/components/DeletePopup'
+import StudentNameTagSkeleton from '@/routes/components/StudentNameTagSkeleton'
 
 export interface AttendanceModalProps {
   onClose: () => void
@@ -25,12 +27,14 @@ export default function AttendanceModal({
       : undefined
   })
   const { register, handleSubmit, reset } = useForm<CreateAttendance>()
-  const { students } = useStudents()
+  const { students, isLoading } = useStudents()
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
   const handleClose = () => {
     reset()
     setSelectedStudent(null)
     onClose()
+    setIsDeletePopupOpen(false)
   }
   if (!date) return null
   const onSubmit = (data: any) => {
@@ -67,7 +71,7 @@ export default function AttendanceModal({
         className="modal-card max-w-[600px]">
         <div className="w-full flex justify-between">
           <div></div>
-          <div className="cursor-default">
+          <div className="cursor-default text-2xl">
             {targetDate.getFullYear()}.{targetDate.getMonth() + 1}.
             {targetDate.getDate()}
           </div>
@@ -78,18 +82,21 @@ export default function AttendanceModal({
             닫기
           </button>
         </div>
-        <div className="w-full flex p-2 card flex-wrap gap-1 justify-center overflow-y-auto h-[16vh]">
-          {students?.map(student => (
-            <div
-              key={student.id}
-              className="w-fit cursor-pointer"
-              onClick={() => setSelectedStudent(student)}>
-              <StudentNameTag
-                student={student}
-                miniVersion
-              />
-            </div>
-          ))}
+        <div className="w-full flex p-2 card flex-wrap gap-1 justify-center overflow-y-auto h-fit">
+          <AnimatePresence mode="wait">
+            {isLoading
+              ? [...Array(4)].map((_, index) => (
+                  <StudentNameTagSkeleton key={index}></StudentNameTagSkeleton>
+                ))
+              : students?.map(student => (
+                  <div
+                    key={student.id}
+                    className="w-fit cursor-pointer"
+                    onClick={() => setSelectedStudent(student)}>
+                    <StudentNameTag student={student} />
+                  </div>
+                ))}
+          </AnimatePresence>
         </div>
         {selectedStudent && (
           <motion.div
@@ -127,20 +134,27 @@ export default function AttendanceModal({
           )}
           {attendance?.map((list, index) => {
             return (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2, delay: 0.1 * index }}
-                className="w-full flex justify-evenly  items-center">
-                <div className="w-[25%]">이름: {list.student.name}</div>
-                <div className="w-[20%]">사유: {list.status}</div>
-                <button
-                  type="button"
-                  className="btn shrink-0"
-                  onClick={() => handleDelete(list.id)}>
-                  삭제
-                </button>
-              </motion.div>
+              <>
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 * index }}
+                  className="w-full flex justify-evenly  items-center">
+                  <div className="w-[25%]">이름: {list.student.name}</div>
+                  <div className="w-[20%]">사유: {list.status}</div>
+                  <button
+                    type="button"
+                    className="btn shrink-0"
+                    onClick={() => setIsDeletePopupOpen(true)}>
+                    삭제
+                  </button>
+                </motion.div>
+                <DeletePopup
+                  isOpen={isDeletePopupOpen}
+                  handleDelete={() => handleDelete(list.id)}
+                  handleCancel={() => setIsDeletePopupOpen(false)}
+                />
+              </>
             )
           })}
         </div>

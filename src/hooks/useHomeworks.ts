@@ -66,6 +66,9 @@ const deleteHomeworkApi = async (homeworkId: string) => {
   if (!response.ok) {
     throw Error('fail to delete homework')
   }
+  if (response.status === 204) {
+    return { success: true }
+  }
   return response.json()
 }
 

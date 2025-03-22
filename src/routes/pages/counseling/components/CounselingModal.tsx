@@ -10,7 +10,8 @@ import {
 import { useForm } from 'react-hook-form'
 import { motion } from 'framer-motion'
 import useCounseling from '@/hooks/useCounseling'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import DeletePopup from '@/routes/components/DeletePopup'
 
 export interface CounselingModalProps {
   onClose: () => void
@@ -24,7 +25,8 @@ export default function CounselingModal({
   student,
   counseling
 }: CounselingModalProps) {
-  const { createCounseling, updateCounseling } = useCounseling({})
+  const { createCounseling, updateCounseling, deleteCounseling } =
+    useCounseling({})
   const {
     register,
     handleSubmit,
@@ -32,6 +34,20 @@ export default function CounselingModal({
     watch,
     formState: { errors }
   } = useForm<CreateCounseling>()
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const handleDelete = async () => {
+    try {
+      if (counseling) {
+        await deleteCounseling(counseling.id)
+        handleClose()
+      }
+    } catch (error) {
+      console.error('fail to delete counseling', error)
+    }
+  }
+  const handleCancel = () => {
+    setIsDeleteModalOpen(false)
+  }
 
   const isEditMode = !!counseling
 
@@ -55,8 +71,9 @@ export default function CounselingModal({
   }, [counseling, reset, isOpen, isEditMode])
 
   const handleClose = () => {
-    reset()
     onClose()
+    reset()
+    setIsDeleteModalOpen(false)
   }
 
   const onSubmit = async (data: any) => {
@@ -166,12 +183,29 @@ export default function CounselingModal({
           registerOptions={{ required: '내용을 입력해주세요' }}
         />
 
-        <button
-          className="btn bg-gray-200"
-          type="submit">
-          {isEditMode ? '수정하기' : '추가하기'}
-        </button>
+        <div className="flex justify-between space-x-2">
+          {isEditMode && (
+            <motion.button
+              type="button"
+              onClick={() => setIsDeleteModalOpen(true)}
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              className="btn flex-1 bg-red-200 shrink-0">
+              삭제하기
+            </motion.button>
+          )}
+          <motion.button
+            whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+            className="btn bg-gray-200 flex-6"
+            type="submit">
+            {isEditMode ? '수정하기' : '추가하기'}
+          </motion.button>
+        </div>
       </motion.form>
+      <DeletePopup
+        isOpen={isDeleteModalOpen}
+        handleDelete={handleDelete}
+        handleCancel={handleCancel}
+      />
     </ModalLayout>
   )
 }

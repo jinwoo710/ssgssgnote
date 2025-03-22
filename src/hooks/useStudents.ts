@@ -31,7 +31,10 @@ export default function useStudents() {
     isError
   } = useQuery({
     queryKey: ['students'],
-    queryFn: fetchStudentsApi
+    queryFn: fetchStudentsApi,
+    refetchOnWindowFocus: false,
+    staleTime: 5 * 60 * 1000,
+    refetchInterval: false
   })
 
   const { mutateAsync: createStudent, isPending } = useMutation({

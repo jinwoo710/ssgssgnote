@@ -3,13 +3,14 @@ import StudentNameTag from '../../components/StudentNameTag'
 import { useEffect, useState } from 'react'
 import { Attendance, Counseling, Homework, Student } from '@/types'
 import AddStudentModal from './components/AddStudentModal'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import useHomeworks from '@/hooks/useHomeworks'
 import useAttendance from '@/hooks/useAttendance'
 import useCounseling from '@/hooks/useCounseling'
+import StudentNameTagSkeleton from '@/routes/components/StudentNameTagSkeleton'
 
 export default function Students() {
-  const { students } = useStudents()
+  const { students, isLoading } = useStudents()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
 
@@ -25,7 +26,7 @@ export default function Students() {
   >([])
 
   const { homeworks } = useHomeworks(selectedStudent?.id)
-  const { attendance } = useAttendance({})
+  const { attendance } = useAttendance({ studentId: selectedStudent?.id })
   const { counselings } = useCounseling({ studentId: selectedStudent?.id })
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Students() {
     setSelectedHomework(homeworks)
     setSelectedAttendance(attendance)
     setSelectedCounseling(counselings)
-  }, [selectedStudent])
+  }, [selectedStudent, homeworks, attendance, counselings])
 
   const handleOpenModal = () => setIsAddModalOpen(true)
   const handleCloseModal = () => setIsAddModalOpen(false)
@@ -48,17 +49,27 @@ export default function Students() {
               </div>
             </div>
             <div className="flex flex-col p-2 overflow-y-auto space-y-2 h-[600px]">
-              {students?.map((student, index) => (
-                <motion.div
-                  key={student.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                  onClick={() => setSelectedStudent(student)}>
-                  <StudentNameTag student={student} />
-                </motion.div>
-              ))}
+              <AnimatePresence mode="wait">
+                {isLoading
+                  ? [...Array(4)].map((_, index) => (
+                      <StudentNameTagSkeleton key={`skeleton-${index}`} />
+                    ))
+                  : students?.map((student, index) => (
+                      <motion.div
+                        key={student.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2, delay: index * 0.05 }}
+                        whileHover={{
+                          scale: 1.03,
+                          transition: { duration: 0.2 }
+                        }}
+                        onClick={() => setSelectedStudent(student)}>
+                        <StudentNameTag student={student} />
+                      </motion.div>
+                    ))}
+              </AnimatePresence>
             </div>
           </div>
           <motion.button

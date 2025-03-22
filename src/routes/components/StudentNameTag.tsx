@@ -17,7 +17,7 @@ export default function StudentNameTag({
   return (
     <div
       key={student.id}
-      className={`flex w-full rounded-lg p-4 space-x-2 border cursor-pointer h-fit ${student.gender == 'male' ? 'bg-blue-100' : 'bg-pink-100'} ${sliceVersion ? 'py-0' : ''}`}>
+      className={`flex w-full rounded-lg p-4 ${miniVersion ? 'px-0' : ''} space-x-2 border cursor-pointer h-fit ${student.gender == 'male' ? 'bg-blue-100' : 'bg-pink-100'} ${sliceVersion ? 'py-0' : ''}`}>
       {simpleVersion || miniVersion ? null : (
         <img
           src={student.gender == 'male' ? boyIcon : girlIcon}
@@ -25,7 +25,7 @@ export default function StudentNameTag({
           className="w-5 h-5 my-auto"
         />
       )}
-      <span className={simpleVersion ? 'shrink-0' : ''}>
+      <span className={miniVersion ? 'text-sm text-center w-full' : ''}>
         {!miniVersion && student.studentId + ' . '}
         {student.name}
       </span>

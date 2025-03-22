@@ -4,7 +4,7 @@ import AttendanceModal from './components/AttendanceModal'
 import useAttendance from '@/hooks/useAttendance'
 import { Student } from '@/types'
 import StudentNameTag from '@/routes/components/StudentNameTag'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 
 export default function Attendance() {
@@ -163,8 +163,7 @@ export default function Attendance() {
               <motion.div
                 whileHover={{
                   scale: 1.03,
-                  type: 'spring',
-                  backgroundColor: '#f0f0f0'
+                  transition: { type: 'tween', duration: 0.2 }
                 }}
                 key={index}
                 onClick={() => handleOpenModal(date)}
@@ -182,47 +181,55 @@ export default function Attendance() {
                     )
                     ?.map(
                       (student: { student: Student }, studentIndex: number) => (
-                        <React.Fragment
-                          key={`attendance-${date.getTime()}-${student.student.id}-${studentIndex}`}>
-                          {studentIndex < 5 && (
-                            <motion.div
-                              className="w-full"
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{
-                                duration: 0.2,
-                                delay: index * 0.05 + studentIndex * 0.05
-                              }}>
-                              <div className="md:hidden">
-                                <StudentNameTag
-                                  student={student.student}
-                                  miniVersion
-                                  sliceVersion
-                                />
-                              </div>
-                              <div className="hidden md:block">
-                                <StudentNameTag
-                                  student={student.student}
-                                  sliceVersion
-                                />
-                              </div>
-                            </motion.div>
-                          )}
-                          {studentIndex === 5 && (
-                            <motion.div
-                              className="w-full"
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{
-                                duration: 0.2,
-                                delay: index * 0.05 + 5 * 0.05
-                              }}>
-                              <div className="bg-gray-200 rounded-lg border border-black flex justify-center items-center text-center">
-                                더보기
-                              </div>
-                            </motion.div>
-                          )}
-                        </React.Fragment>
+                        <AnimatePresence
+                          mode="popLayout"
+                          key={`attendance-presence-${date.getTime()}-${student.student.id}`}>
+                          <React.Fragment
+                            key={`attendance-${date.getTime()}-${student.student.id}-${studentIndex}`}>
+                            {studentIndex < 5 && (
+                              <motion.div
+                                className="w-full"
+                                initial={{ opacity: 0, y: 10, height: 0 }}
+                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                exit={{ opacity: 0, y: -10, height: 0 }}
+                                transition={{
+                                  duration: 0.3,
+                                  type: 'tween'
+                                }}>
+                                <div className="md:hidden">
+                                  <StudentNameTag
+                                    student={student.student}
+                                    miniVersion
+                                    sliceVersion
+                                  />
+                                </div>
+                                <div className="hidden md:block">
+                                  <StudentNameTag
+                                    student={student.student}
+                                    sliceVersion
+                                  />
+                                </div>
+                              </motion.div>
+                            )}
+                            {studentIndex == 5 && (
+                              <motion.div
+                                key={`more-${date.getTime()}`}
+                                className="w-full"
+                                initial={{ opacity: 0, y: 10, height: 0 }}
+                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                exit={{ opacity: 0, y: -10, height: 0 }}
+                                transition={{
+                                  duration: 0.3,
+                                  type: 'tween',
+                                  delay: 0.3
+                                }}>
+                                <div className="bg-gray-200 rounded-lg border border-black flex justify-center items-center text-center">
+                                  더보기
+                                </div>
+                              </motion.div>
+                            )}
+                          </React.Fragment>
+                        </AnimatePresence>
                       )
                     )}
                 </div>

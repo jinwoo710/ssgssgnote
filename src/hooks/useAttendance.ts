@@ -20,7 +20,13 @@ const fetchAttendanceApi = async (
   if (!response.ok) {
     throw Error('fail to fetch attendance')
   }
-  return response.json()
+
+  let attendances = (await response.json()) as Attendance[]
+  attendances.sort(
+    (front, end) =>
+      new Date(end.date).getTime() - new Date(front.date).getTime()
+  )
+  return attendances
 }
 
 const createAttendanceApi = async (attendance: CreateAttendance) => {

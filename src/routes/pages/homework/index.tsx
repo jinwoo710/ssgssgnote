@@ -36,7 +36,7 @@ export default function Homework() {
           </button>
         </div>
 
-        <div className="card flex-col w-full md:grid md:grid-cols-2 justify-center content-start p-4 gap-3 min-h-[600px]">
+        <div className="card flex-col  w-full md:grid md:grid-cols-2 justify-start content-start p-4 gap-3 min-h-[600px]">
           <AnimatePresence mode="wait">
             {isLoading
               ? [...Array(4)].map((_, index) => (

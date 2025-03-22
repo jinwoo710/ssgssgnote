@@ -9,10 +9,16 @@ const fetchCounselingApi = async (studentId?: string) => {
   }
 
   const response = await fetch(url)
+
+  let counselings = (await response.json()) as Counseling[]
+  counselings.sort(
+    (front, end) =>
+      new Date(end.date).getTime() - new Date(front.date).getTime()
+  )
   if (!response.ok) {
     throw Error('fail to fetch counseling')
   }
-  return response.json()
+  return counselings
 }
 
 const createCounselingApi = async (counseling: CreateCounseling) => {

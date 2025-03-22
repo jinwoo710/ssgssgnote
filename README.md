@@ -1,54 +1,40 @@
-# React + TypeScript + Vite
+# 선생님들의 생기부 쓱쓱노트
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 프로젝트 소개
 
-Currently, two official plugins are available:
+우리 학생이 언제 지각 했는지, 언제 과제를 냈는지, 언제 상담을 했는지 하나하나 다이어리에 기록하기 힘드신 선생님들을 위한 온라인 다이어리 페이지!
+한 화면에서 학생들의 모든 일과를 다뤄보세요!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 개발 동기 및 과정
 
-## Expanding the ESLint configuration
+많은 학교 선생님들이 학교 다이어리를 작성하는것을 보고, 선생님들을 위한 개인용 다이어리 웹을 제작해보자 라는 생각에서 시작된 알파 프로젝트 입니니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 기능 소개
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 1. 모바일, 태블릿 및 pc에서 사용 가능한 반응형 웹 애플리케이션
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. 한 화면에서 학생들의 출결, 과제, 상담 컨트롤
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. 학생들의 출석, 상담, 숙제 관리 기록
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 서비스
+
+https://ssgssgnote.pages.dev/students
+
+## 기술 스택
+
+### frontend
+
+- React
+- TypeScript
+- Tailwind CSS
+- React-Query
+
+### Backend
+
+- Drizzle ORM
+- Coludflare D1
+
+### 인증/배포
+
+- Cloudflare Pages

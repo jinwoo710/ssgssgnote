@@ -8,6 +8,7 @@ import useHomeworks from '@/hooks/useHomeworks'
 import useAttendance from '@/hooks/useAttendance'
 import useCounseling from '@/hooks/useCounseling'
 import StudentNameTagSkeleton from '@/routes/components/StudentNameTagSkeleton'
+import ItemSkeleton from './components/ItemSkeleton'
 
 export default function Students() {
   const { students, isLoading } = useStudents()
@@ -25,9 +26,15 @@ export default function Students() {
     Counseling[] | undefined
   >([])
 
-  const { homeworks } = useHomeworks(selectedStudent?.id)
-  const { attendance } = useAttendance({ studentId: selectedStudent?.id })
-  const { counselings } = useCounseling({ studentId: selectedStudent?.id })
+  const { homeworks, isLoading: homeworksLoading } = useHomeworks(
+    selectedStudent?.id
+  )
+  const { attendance, isLoading: attendanceLoading } = useAttendance({
+    studentId: selectedStudent?.id
+  })
+  const { counselings, isLoading: counselingsLoading } = useCounseling({
+    studentId: selectedStudent?.id
+  })
 
   useEffect(() => {
     if (!selectedStudent) return
@@ -79,67 +86,130 @@ export default function Students() {
             추가하기
           </motion.button>
         </div>
-        <motion.div
-          layout
-          className="flex flex-col w-full flex-1 space-y-2 min-h-[600px]">
+        <AnimatePresence mode="wait">
           <motion.div
             layout
-            className="card flex-grow flex-shrink basis-1/3 p-4 flex-col">
-            <div className="flex w-full text-xl">
-              {selectedStudent?.name} 출석 현황
-            </div>
-            <div className="space-y-2 mt-2">
-              {selectedAttendance &&
-                selectedAttendance.map(attendance => (
-                  <div
-                    key={attendance.id}
-                    className="flex w-full bg-amber-200 space-x-3 card h-fit p-2 cursor-pointer">
-                    <p>일자 : {attendance.date}</p>
-                    <p>사유 : {attendance.status}</p>
-                  </div>
-                ))}
-            </div>
-          </motion.div>
+            className="flex flex-col w-full flex-1 space-y-2 min-h-[600px]">
+            <motion.div
+              layout
+              className="card flex-grow flex-shrink basis-1/3 p-4 flex-col">
+              <div className="flex w-full text-xl">
+                {selectedStudent?.name} 출석 현황
+              </div>
+              <div className="space-y-2 mt-2">
+                {selectedAttendance &&
+                  selectedStudent &&
+                  selectedAttendance.length == 0 && (
+                    <div className="text-center mx-auto mt-10 text-2xl">
+                      지각한 적이 없어요!
+                    </div>
+                  )}
+                {attendanceLoading
+                  ? [...Array(4)].map((_, index) => (
+                      <ItemSkeleton key={`skeleton-${index}`} />
+                    ))
+                  : selectedAttendance?.map(
+                      (attendance, index) =>
+                        index < 5 && (
+                          <motion.div
+                            key={attendance.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: index * 0.1,
+                              type: 'tween'
+                            }}
+                            className="flex w-full bg-yellow-200 space-x-3 card h-fit p-2 cursor-pointer">
+                            <p>{attendance.date} / </p>
+                            <p>{attendance.status}</p>
+                          </motion.div>
+                        )
+                    )}
+              </div>
+            </motion.div>
 
-          <motion.div
-            layout
-            className="card  flex-grow flex-shrink basis-1/3 p-4 gap-2 flex-col">
-            <div className="flex w-full text-xl">
-              {selectedStudent?.name} 과제 현황
-            </div>
-            <div className="space-y-2 mt-2">
-              {selectedHomework &&
-                selectedHomework.map(homework => (
-                  <div
-                    key={homework.id}
-                    className="flex w-full bg-amber-200 space-x-3 card h-fit p-2 cursor-pointer">
-                    <p>제목 : {homework.title}</p>
-                    <p>일자 : {homework.date}</p>
-                  </div>
-                ))}
-            </div>
-          </motion.div>
+            <motion.div
+              layout
+              className="card  flex-grow flex-shrink basis-1/3 p-4 gap-2 flex-col">
+              <div className="flex w-full text-xl">
+                {selectedStudent?.name}미제출 과제 현황
+              </div>
+              <div className="space-y-2 mt-2">
+                {selectedHomework &&
+                  selectedStudent &&
+                  selectedHomework.length == 0 && (
+                    <div className="text-center mx-auto mt-10 text-2xl">
+                      모든 과제를 제출했어요!
+                    </div>
+                  )}
+                {homeworksLoading
+                  ? [...Array(4)].map((_, index) => (
+                      <ItemSkeleton key={`skeleton-${index}`} />
+                    ))
+                  : selectedHomework &&
+                    selectedHomework.map(
+                      (homework, index) =>
+                        index < 5 && (
+                          <motion.div
+                            key={homework.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: index * 0.1,
+                              type: 'tween'
+                            }}
+                            className="flex w-full bg-red-200 space-x-3 card h-fit p-2 cursor-pointer">
+                            <p>{homework.title} </p>
+                            <p>{homework.date} </p>
+                          </motion.div>
+                        )
+                    )}
+              </div>
+            </motion.div>
 
-          <motion.div
-            layout
-            className="card  flex-grow flex-shrink basis-1/3 p-4 flex-col">
-            <div className="flex w-full text-xl">
-              {selectedStudent?.name} 상담 현황
-            </div>
-            <div className="space-y-2 mt-2">
-              {selectedCounseling &&
-                selectedCounseling.map(counseling => (
-                  <div
-                    key={counseling.id}
-                    className="flex w-full bg-amber-200 space-x-3 card h-fit p-2 cursor-pointer">
-                    <p>제목 : {counseling.type}</p>
-                    <p>일자 : {counseling.date}</p>
-                    <p>내용 : {counseling.content}</p>
-                  </div>
-                ))}
-            </div>
+            <motion.div
+              layout
+              className="card  flex-grow flex-shrink basis-1/3 p-4 flex-col">
+              <div className="flex w-full text-xl">
+                {selectedStudent?.name} 상담 현황
+              </div>
+              <div className="space-y-2 mt-2">
+                {selectedCounseling &&
+                  selectedStudent &&
+                  selectedCounseling.length == 0 && (
+                    <div className="text-center mx-auto mt-10 text-2xl">
+                      상담이 없어요!
+                    </div>
+                  )}
+                {counselingsLoading
+                  ? [...Array(4)].map((_, index) => (
+                      <ItemSkeleton key={`skeleton-${index}`} />
+                    ))
+                  : selectedCounseling &&
+                    selectedCounseling.map(
+                      (counseling, index) =>
+                        index < 5 && (
+                          <motion.div
+                            key={counseling.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: 0.3,
+                              delay: index * 0.1,
+                              type: 'tween'
+                            }}
+                            className="flex w-full bg-green-200 space-x-3 card h-fit p-2 cursor-pointer">
+                            <p>내용 : {counseling.content}</p>
+                            <p>일자 : {counseling.date}</p>
+                          </motion.div>
+                        )
+                    )}
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </AnimatePresence>
       </div>
       <AddStudentModal
         isOpen={isAddModalOpen}

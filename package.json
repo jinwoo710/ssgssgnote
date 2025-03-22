@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "wrangler pages deploy dist",
+    "deploy": "npm run build && wrangler pages deploy dist",
     "db:migrate": "drizzle-kit generate",
     "db:midrate:local": "wrangler d1 migrations apply ssgssgnote-db --local",
     "db:midrate:prod": "wrangler d1 migrations apply ssgssgnote-db --remote"

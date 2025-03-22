@@ -31,7 +31,6 @@ export default function CounselingModal({
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors }
   } = useForm<CreateCounseling>()
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)

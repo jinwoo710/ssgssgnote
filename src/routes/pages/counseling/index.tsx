@@ -37,7 +37,7 @@ export default function CounselingPage() {
         <div className="w-full flex justify-center">
           <div className="text-2xl">상담 관리</div>
         </div>
-        <div className="card flex flex-wrap gap-2 p-2">
+        <div className="card flex flex-wrap gap-2 p-2 h-fit">
           <AnimatePresence mode="wait">
             {studentsLoading
               ? [...Array(4)].map((_, index) => (
@@ -57,7 +57,7 @@ export default function CounselingPage() {
                 ))}
           </AnimatePresence>
         </div>
-        <div className="card flex-col w-full justify-start md:grid md:grid-cols-2 content-start p-4 gap-3 min-h-[600px]">
+        <div className="card flex-col w-full justify-start md:grid md:grid-cols-2 content-start p-4 gap-3 min-h-[600px] overflow-y-scroll">
           <AnimatePresence mode="wait">
             {isLoading
               ? [...Array(4)].map((_, index) => (

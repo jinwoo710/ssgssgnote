@@ -1,7 +1,11 @@
 import Postit from './components/Postit'
-import { MENU_ITEMS } from '../../constants/menu'
+import { MENU_ITEMS as DEFAULT_MENU_ITEMS } from '../../constants/menu'
 
-export default function Home() {
+export interface HomeProps {
+  MENU_ITEMS?: typeof DEFAULT_MENU_ITEMS
+}
+
+export default function Home({ MENU_ITEMS = DEFAULT_MENU_ITEMS }: HomeProps) {
   let date = new Date()
   const boardText = 'text-white lg:text-xl'
   return (
